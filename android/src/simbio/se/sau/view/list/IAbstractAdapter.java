@@ -9,8 +9,8 @@ import simbio.se.sau.model.IAbstractModel;
  * @date 2013-aŭg-14 23:52:06
  * 
  */
-public interface IAbstractAdapter {
+public interface IAbstractAdapter<T extends IAbstractModel> {
 
-	public <T extends IAbstractModel> ArrayList<T> getAdapterModels();
+	public ArrayList<T> getAdapterModels();
 
 }

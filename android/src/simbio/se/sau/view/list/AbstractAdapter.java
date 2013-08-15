@@ -12,12 +12,12 @@ import android.widget.ArrayAdapter;
  * @date 2013-aŭg-14 23:57:59
  * 
  */
-public class AbstractAdapter extends ArrayAdapter<IAbstractModel> {
+public class AbstractAdapter<T extends IAbstractModel> extends ArrayAdapter<T> {
 
-	protected IAbstractAdapter delegate;
+	protected IAbstractAdapter<T> delegate;
 	protected int layoutId;
 
-	public AbstractAdapter(Context context, IAbstractAdapter delegate, int layoutId) {
+	public AbstractAdapter(Context context, IAbstractAdapter<T> delegate, int layoutId) {
 		super(context, layoutId);
 		this.delegate = delegate;
 		this.layoutId = layoutId;
@@ -36,7 +36,7 @@ public class AbstractAdapter extends ArrayAdapter<IAbstractModel> {
 	}
 
 	@Override
-	public IAbstractModel getItem(int position) {
+	public T getItem(int position) {
 		return delegate.getAdapterModels().get(position);
 	}
 
