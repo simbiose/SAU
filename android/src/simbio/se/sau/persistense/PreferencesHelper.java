@@ -62,19 +62,19 @@ public class PreferencesHelper {
 		return getFloat(key, 0.0f);
 	}
 
-	public float getInt(String key, int def) {
+	public int getInt(String key, int def) {
 		return sharedPreferences.getInt(key, def);
 	}
 
-	public float getIntOrZero(String key) {
+	public int getIntOrZero(String key) {
 		return getInt(key, 0);
 	}
 
-	public float getLong(String key, long def) {
+	public long getLong(String key, long def) {
 		return sharedPreferences.getLong(key, def);
 	}
 
-	public float getLongOrZero(String key) {
+	public long getLongOrZero(String key) {
 		return getLong(key, 0l);
 	}
 
