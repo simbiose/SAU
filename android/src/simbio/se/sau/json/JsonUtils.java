@@ -24,18 +24,18 @@ public class JsonUtils {
 		return gson.toJson(object);
 	}
 
-	public static Object fromJson(String json, Class<Object> theClass) {
-		return gson.fromJson(json, theClass);
-	}
-
-	public static Object fromJsonOrNull(String json, Class<Object> theClass) {
-		Object iAbstractModel = null;
+	public static Object fromJson(String json, Class<?> theClass, Object def) {
+		Object object = def;
 		try {
-			iAbstractModel = fromJson(json, theClass);
+			object = gson.fromJson(json, theClass);
 		} catch (Exception e) {
 			SimbiLog.printException(e);
 		}
-		return iAbstractModel;
+		return object;
+	}
+
+	public static Object fromJsonOrNull(String json, Class<?> theClass) {
+		return fromJson(json, theClass, null);
 	}
 
 }

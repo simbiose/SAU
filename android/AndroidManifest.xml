@@ -62,4 +62,6 @@
         android:minSdkVersion="1"
         android:targetSdkVersion="18" />
 
+    <uses-library android:name="com.google.gson" />
+
 </manifest>

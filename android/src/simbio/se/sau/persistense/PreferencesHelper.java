@@ -90,7 +90,7 @@ public class PreferencesHelper {
 		return getString(key, "");
 	}
 
-	public Object getObject(String key, Class<Object> theClass, Object def) {
+	public Object getObject(String key, Class<?> theClass, Object def) {
 		String string = getStringOrNull(key);
 		if (string == null)
 			return def;
@@ -100,7 +100,7 @@ public class PreferencesHelper {
 		return object;
 	}
 
-	public Object getObjectOrNull(String key, Class<Object> theClass) {
+	public Object getObjectOrNull(String key, Class<?> theClass) {
 		return getObject(key, theClass, null);
 	}
 }

@@ -26,7 +26,7 @@ public class SimbiLog {
 	}
 
 	public static void log(Object instance, Object... params) {
-		Log.d(LOG_TOKEN_STACK_TRACE, "{\"Method\" : \"" + Thread.currentThread().getStackTrace()[4] + "\", \"instance\" : \"" + JsonUtils.toJson(instance) + "\", \"params\" : " + JsonUtils.toJson(params));
+		Log.d(LOG_TOKEN_STACK_TRACE, String.format("{\"instance\":\"%s\",\"instanceClass\":\"%s\",\"params\":%s,\"stack\":%s}", instance, instance.getClass(), JsonUtils.toJson(params), JsonUtils.toJson(Thread.currentThread().getStackTrace())));
 	}
 
 	public static void printException(Exception e) {

@@ -1,4 +1,6 @@
 android/bin/
 android/gen/
+tests/bin/
+tests/gen/
 .DS_Store
 ._.DS_Store
