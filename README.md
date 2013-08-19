@@ -16,6 +16,10 @@ Simbiose Android Utils (SAU)
 ##Contribute
 > Fell free to fork, modify and send a pull request.
 
+##How to
+> Import the /android project named SAU to eclipse and add it a android library on your android application and now you're ready to use it.
+> You also can see the documentation on /doc/index.html
+
 ##Changelog
  - Version 1.0.0
   - SimbiLog - Created
@@ -26,3 +30,5 @@ Simbiose Android Utils (SAU)
   - IAbstractAdapter - Created
   - TestProject - Created
   - Documentation - Created
+  - License - Created
+  - README - Created

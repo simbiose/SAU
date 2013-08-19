@@ -9,16 +9,16 @@ import simbio.se.sau.persistense.PreferencesHelper;
 import android.test.AndroidTestCase;
 
 /**
+ * A normal test class, for more details {@link AndroidTestCase}
+ * 
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-19 00:57:49
- * 
  */
 public class TestSauLibrary extends AndroidTestCase {
 
-	public TestSauLibrary() {
-		super();
-	}
-
+	/**
+	 * A normal test method, for more details {@link AndroidTestCase}
+	 */
 	public final void testSomething() {
 		// Objects to tests
 		Object[] param1 = { "1", 2, null, 4.6f, new Object[] {} };
@@ -135,6 +135,11 @@ public class TestSauLibrary extends AndroidTestCase {
 		SimbiLog.print(param1, foo1, foo2);
 		SimbiLog.print("Message from Assert");
 		SimbiLog.printException(new Exception("A mock exception to test printException method"));
+		SimbiLog.printException(new Exception());
 		SimbiLog.log(this, param1, foo1, null, foo2);
+		SimbiLog.log(null, param1, foo1, null, foo2);
+		SimbiLog.log(1, param1, foo1, null, foo2);
+		SimbiLog.print();
+		SimbiLog.here();
 	}
 }
