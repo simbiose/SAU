@@ -26,6 +26,9 @@ You also can see the documentation on /doc/index.html
 
 ##Changelog
 
+### Version 2.0.0
+ - API enum - Created
+
 ### Version 1.0.0
  - SimbiLog - Created
  - JsonUtils - Created

@@ -1,5 +1,6 @@
 package simbio.se.sau.persistense;
 
+import simbio.se.sau.API;
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
 import android.R.string;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
  * 
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-15 07:28:37
+ * @since {@link API#Version_1_0_0}
  */
 public class PreferencesHelper {
 
@@ -29,6 +31,7 @@ public class PreferencesHelper {
 	 * 
 	 * @param context
 	 *            a {@link Context} needed to access the {@link SharedPreferences} data.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public PreferencesHelper(Context context) {
 		sharedPreferences = context.getSharedPreferences(preferencesKey, Context.MODE_PRIVATE);
@@ -41,6 +44,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, boolean value) {
 		sharedPreferences.edit().putBoolean(key, value).commit();
@@ -53,6 +57,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, float value) {
 		sharedPreferences.edit().putFloat(key, value).commit();
@@ -65,6 +70,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, int value) {
 		sharedPreferences.edit().putInt(key, value).commit();
@@ -77,6 +83,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, long value) {
 		sharedPreferences.edit().putLong(key, value).commit();
@@ -89,6 +96,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, String value) {
 		sharedPreferences.edit().putString(key, value).commit();
@@ -102,6 +110,7 @@ public class PreferencesHelper {
 	 *            The name of the preference to modify.
 	 * @param value
 	 *            The new value for the preference.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public void put(String key, Object value) {
 		sharedPreferences.edit().putString(key, JsonUtils.toJson(value)).commit();
@@ -115,6 +124,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public boolean getBoolean(String key, boolean def) {
 		boolean value = def;
@@ -132,6 +142,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or true.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public boolean getBooleanOrTrue(String key) {
 		return getBoolean(key, true);
@@ -143,6 +154,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or false.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public boolean getBooleanOrFalse(String key) {
 		return getBoolean(key, false);
@@ -156,6 +168,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public float getFloat(String key, float def) {
 		float value = def;
@@ -173,6 +186,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or zero.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public float getFloatOrZero(String key) {
 		return getFloat(key, 0.0f);
@@ -186,6 +200,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public int getInt(String key, int def) {
 		int value = def;
@@ -203,6 +218,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or zero.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public int getIntOrZero(String key) {
 		return getInt(key, 0);
@@ -216,6 +232,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public long getLong(String key, long def) {
 		long value = def;
@@ -233,6 +250,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or zero.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public long getLongOrZero(String key) {
 		return getLong(key, 0l);
@@ -246,6 +264,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public String getString(String key, String def) {
 		String value = def;
@@ -263,6 +282,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or <code>null</code>.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public String getStringOrNull(String key) {
 		return getString(key, null);
@@ -274,6 +294,7 @@ public class PreferencesHelper {
 	 * @param key
 	 *            The name of the preference to retrieve.
 	 * @return Returns the preference value if it exists, or a empty {@link String}.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public String getStringOrEmpty(String key) {
 		return getString(key, "");
@@ -290,6 +311,7 @@ public class PreferencesHelper {
 	 * @param def
 	 *            Value to return if this preference does not exist.
 	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public Object getObject(String key, Class<?> theClass, Object def) {
 		String string = getStringOrNull(key);
@@ -310,6 +332,7 @@ public class PreferencesHelper {
 	 * @param theClass
 	 *            The {@link Class} of object retrieved
 	 * @return Returns the preference value if it exists, or <code>null</code>.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public Object getObjectOrNull(String key, Class<?> theClass) {
 		return getObject(key, theClass, null);

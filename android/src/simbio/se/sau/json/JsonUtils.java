@@ -3,6 +3,7 @@
  */
 package simbio.se.sau.json;
 
+import simbio.se.sau.API;
 import simbio.se.sau.log.SimbiLog;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
  * 
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-15 00:44:14
+ * @since {@link API#Version_1_0_0}
  */
 public class JsonUtils {
 
@@ -26,6 +28,7 @@ public class JsonUtils {
 	 * @param object
 	 *            to be converted to Json {@link String}
 	 * @return a {@link String} with Json format
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static String toJson(Object object) {
 		return gson.toJson(object);
@@ -41,6 +44,7 @@ public class JsonUtils {
 	 * @param def
 	 *            default object if it get some error
 	 * @return a {@link Object} represented from json parameter and with class struct from theClass.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static Object fromJson(String json, Class<?> theClass, Object def) {
 		Object object = def;
@@ -60,6 +64,7 @@ public class JsonUtils {
 	 * @param theClass
 	 *            The {@link Class} of object mapped
 	 * @return a {@link Object} represented from json parameter and with class struct from theClass or null if get some error.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static Object fromJsonOrNull(String json, Class<?> theClass) {
 		return fromJson(json, theClass, null);

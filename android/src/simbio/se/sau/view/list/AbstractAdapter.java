@@ -1,5 +1,6 @@
 package simbio.se.sau.view.list;
 
+import simbio.se.sau.API;
 import simbio.se.sau.model.IAbstractModel;
 import android.app.Application;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.widget.ListView;
  * 
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-14 23:57:59
+ * @since {@link API#Version_1_0_0}
  */
 public class AbstractAdapter<T extends IAbstractModel> extends ArrayAdapter<T> {
 
@@ -37,6 +39,7 @@ public class AbstractAdapter<T extends IAbstractModel> extends ArrayAdapter<T> {
 	 *            your delegate implements {@link IAbstractAdapter}
 	 * @param layoutId
 	 *            The layout id in you layout folder to be used on {@link ListView} items.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public AbstractAdapter(Context context, IAbstractAdapter<T> delegate, int layoutId) {
 		super(context, layoutId);

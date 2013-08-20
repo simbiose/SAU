@@ -1,5 +1,6 @@
 package simbio.se.sau.log;
 
+import simbio.se.sau.API;
 import simbio.se.sau.json.JsonUtils;
 import android.util.Log;
 
@@ -8,6 +9,7 @@ import android.util.Log;
  * 
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-13 14:59:22
+ * @since {@link API#Version_1_0_0}
  */
 public class SimbiLog {
 
@@ -23,6 +25,8 @@ public class SimbiLog {
 
 	/**
 	 * Prints a "here" message to verify thinks like "My code passed through here?"
+	 * 
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void here() {
 		print("Here");
@@ -33,6 +37,7 @@ public class SimbiLog {
 	 * 
 	 * @param params
 	 *            to log
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void print(Object... params) {
 		Log.d(LOG_TOKEN, JsonUtils.toJson(params));
@@ -45,6 +50,7 @@ public class SimbiLog {
 	 *            the instance, normally use this reference.
 	 * @param params
 	 *            anything you want see besides the instance and stack trace, this support a variable number of parameters.
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void log(Object instance, Object... params) {
 		Log.d(LOG_TOKEN_STACK_TRACE,
@@ -57,6 +63,7 @@ public class SimbiLog {
 	 * 
 	 * @param e
 	 *            the {@link Exception} you want log
+	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void printException(Exception e) {
 		Log.e(LOG_TOKEN, JsonUtils.toJson(new Object[] { e.toString(), e.getCause(), e.getMessage(), e.getLocalizedMessage(), e.getStackTrace() }));
