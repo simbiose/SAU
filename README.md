@@ -28,6 +28,7 @@ You also can see the documentation on /doc/index.html
 
 ### Version 2.0.0
  - API enum - Created
+ - SimbiShare - Created
 
 ### Version 1.0.0
  - SimbiLog - Created
