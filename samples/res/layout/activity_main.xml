@@ -9,11 +9,22 @@
     tools:context=".MainActivity" >
 
     <Button
+        android:id="@+id/button_show_toaster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:onClick="showToaster"
         android:text="@string/show_a_toaster" />
+
+    <Button
+        android:id="@+id/button_show_user_primary_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button_show_toaster"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="showUserEmail"
+        android:text="@string/show_user_primary_email" />
 
 </RelativeLayout>

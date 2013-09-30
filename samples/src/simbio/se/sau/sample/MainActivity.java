@@ -1,5 +1,7 @@
 package simbio.se.sau.sample;
 
+import static simbio.se.sau.iterable.Range.range;
+import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.share.SimbiShare;
 import simbio.se.sau.widget.ToastMaker;
@@ -25,6 +27,16 @@ public class MainActivity extends Activity {
 		SimbiLog.log(this, savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+
+		// range and log examples
+		for (int i : range(3))
+			SimbiLog.print("range example a", i);
+		for (int i : range(-4))
+			SimbiLog.print("range example b", i);
+		for (int i : range(4, 7))
+			SimbiLog.print("range example c", i);
+		for (int i : range(-5, -30, 10))
+			SimbiLog.print("range example d", i);
 	}
 
 	@Override
@@ -70,7 +82,9 @@ public class MainActivity extends Activity {
 			ToastMaker.toast(getApplicationContext());
 			break;
 		}
-
 	}
 
+	public void showUserEmail(View view) {
+		ToastMaker.toast(getApplicationContext(), new DeviceInformationsManager(getApplicationContext()).getPrimaryUserEmailOrNull());
+	}
 }

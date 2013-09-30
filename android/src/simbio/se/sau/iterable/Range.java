@@ -86,6 +86,7 @@ public class Range implements Iterable<Integer> {
 	private int step;
 	private int current;
 	private Iterator<Integer> iterator;
+	private boolean isDecreaseCount;
 
 	/**
 	 * 
@@ -161,7 +162,7 @@ public class Range implements Iterable<Integer> {
 	private void init(int start, int end, int step, Iterator<Integer> iterator) {
 		this.start = start;
 		this.end = end;
-		this.step = step;
+		this.step = Math.abs(step);
 		this.iterator = iterator;
 		restart();
 	}
@@ -180,7 +181,10 @@ public class Range implements Iterable<Integer> {
 			 */
 			@Override
 			public boolean hasNext() {
-				return current != end;
+				if (isDecreaseCount)
+					return current > end;
+				else
+					return current < end;
 			}
 
 			/*
@@ -216,6 +220,7 @@ public class Range implements Iterable<Integer> {
 	 */
 	public void restart() {
 		current = start;
+		isDecreaseCount = start > end;
 	}
 
 	/*
