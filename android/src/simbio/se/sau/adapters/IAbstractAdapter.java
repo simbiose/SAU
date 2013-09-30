@@ -1,4 +1,4 @@
-package simbio.se.sau.view.list;
+package simbio.se.sau.adapters;
 
 import java.util.ArrayList;
 

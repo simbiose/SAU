@@ -1,4 +1,4 @@
-package simbio.se.sau.view.list;
+package simbio.se.sau.adapters;
 
 import simbio.se.sau.API;
 import simbio.se.sau.model.IAbstractModel;
