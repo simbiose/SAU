@@ -1,5 +1,7 @@
 android/bin/
 android/gen/
+samples/bin/
+samples/gen/
 tests/bin/
 tests/gen/
 .DS_Store

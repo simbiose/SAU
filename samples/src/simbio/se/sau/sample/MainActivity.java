@@ -2,10 +2,13 @@ package simbio.se.sau.sample;
 
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.share.SimbiShare;
+import simbio.se.sau.widget.ToastMaker;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * @author Ademar Alves de Oliveira <ademar111190@gmail.com>
@@ -13,6 +16,8 @@ import android.view.MenuItem;
  * 
  */
 public class MainActivity extends Activity {
+
+	// Activity methods with override implementation
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,30 @@ public class MainActivity extends Activity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	// onclicks
+
+	public void showToaster(View view) {
+		int random = (int) (Math.random() * 5.0);
+		switch (random) {
+		case 0:
+			ToastMaker.toast(getApplicationContext(), "uses length short", Toast.LENGTH_SHORT);
+			break;
+		case 1:
+			ToastMaker.toast(getApplicationContext(), R.string.app_name, Toast.LENGTH_SHORT);
+			break;
+		case 2:
+			ToastMaker.toast(getApplicationContext(), "Lorem ipsum");
+			break;
+		case 3:
+			ToastMaker.toast(getApplicationContext(), R.string.hello_world);
+			break;
+		default:
+			ToastMaker.toast(getApplicationContext());
+			break;
+		}
+
 	}
 
 }

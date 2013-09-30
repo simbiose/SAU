@@ -4,5 +4,6 @@
     <string name="app_name">SauSample</string>
     <string name="action_share">Share</string>
     <string name="hello_world">Hello world!</string>
+    <string name="show_a_toaster">Show a Toaster</string>
 
 </resources>
