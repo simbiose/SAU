@@ -35,6 +35,9 @@ You also can see the documentation on /doc/index.html
  - TestProject - Added tests on macro
  - Change the package of "views.list" to "adapters"
  - ToastMaker - Created
+ - AbstractSauException - Created
+ - Range - Created
+ - DeviceInformationsManager - Created
 
 ### Version 1.0.0
  - SimbiLog - Created
