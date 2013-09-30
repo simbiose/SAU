@@ -1,5 +1,7 @@
 package simbio.se.sau.persistense;
 
+import java.lang.reflect.Type;
+
 import simbio.se.sau.API;
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
@@ -336,5 +338,43 @@ public class PreferencesHelper {
 	 */
 	public Object getObjectOrNull(String key, Class<?> theClass) {
 		return getObject(key, theClass, null);
+	}
+
+	/**
+	 * Retrieve a {@link Object} value from the preferences with the {@link SharedPreferences#getString(String, String)} method. Note this will be retrive a {@link String} and try convert it to your {@link Object} with the method
+	 * {@link JsonUtils#fromJsonOrNull(String, Class)}.
+	 * 
+	 * @param key
+	 *            The name of the preference to retrieve.
+	 * @param type
+	 *            The {@link Type} of object retrieved
+	 * @param def
+	 *            Value to return if this preference does not exist.
+	 * @return Returns the preference value if it exists, or the def value.
+	 * @since {@link API#Version_2_0_0}
+	 */
+	public Object getObject(String key, Type type, Object def) {
+		String string = getStringOrNull(key);
+		if (string == null)
+			return def;
+		Object object = JsonUtils.fromJsonWithTypeOrNull(string, type);
+		if (object == null)
+			return def;
+		return object;
+	}
+
+	/**
+	 * Retrieve a {@link Object} value from the preferences with the {@link SharedPreferences#getString(String, String)} method. Note this will be retrive a {@link String} and try convert it to your {@link Object} with the method
+	 * {@link JsonUtils#fromJsonOrNull(String, Class)}.
+	 * 
+	 * @param key
+	 *            The name of the preference to retrieve.
+	 * @param type
+	 *            The {@link Type} of object retrieved
+	 * @return Returns the preference value if it exists, or <code>null</code>.
+	 * @since {@link API#Version_2_0_0}
+	 */
+	public Object getObjectOrNull(String key, Type type) {
+		return getObject(key, type, null);
 	}
 }

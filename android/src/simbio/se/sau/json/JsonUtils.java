@@ -3,6 +3,8 @@
  */
 package simbio.se.sau.json;
 
+import java.lang.reflect.Type;
+
 import simbio.se.sau.API;
 import simbio.se.sau.log.SimbiLog;
 
@@ -68,6 +70,44 @@ public class JsonUtils {
 	 */
 	public static Object fromJsonOrNull(String json, Class<?> theClass) {
 		return fromJson(json, theClass, null);
+	}
+
+	/**
+	 * This method convert a Json {@link String} to a {@link Object} and if get some error return the default object param, for more details see {@link Gson#fromJson(String, Class)}
+	 * 
+	 * @param json
+	 *            a Json {@link String} mapping the object
+	 * @param type
+	 *            The {@link Type} of object mapped
+	 * @param def
+	 *            default object if it get some error
+	 * @return a {@link Object} represented from json parameter and with class struct from theClass.
+	 * @since {@link API#Version_2_0_0}
+	 */
+	public static Object fromJsonWithType(String json, Type type, Object def) {
+		Object object;
+		try {
+			object = gson.fromJson(json, type);
+		} catch (Exception e) {
+			return def;
+		}
+		if (object == null)
+			return def;
+		return object;
+	}
+
+	/**
+	 * This method convert a Json {@link String} to a {@link Object} and if get some error return <code>null</code>, for more details see {@link Gson#fromJson(String, Class)}
+	 * 
+	 * @param json
+	 *            a Json {@link String} mapping the object
+	 * @param type
+	 *            The {@link Type} of object mapped
+	 * @return a {@link Object} represented from json parameter and with class struct from theClass or null if get some error.
+	 * @since {@link API#Version_2_0_0}
+	 */
+	public static Object fromJsonWithTypeOrNull(String json, Type type) {
+		return fromJsonWithType(json, type, null);
 	}
 
 }

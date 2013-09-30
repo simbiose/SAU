@@ -3,10 +3,17 @@
  */
 package simbio.se.sau.test;
 
+import static simbio.se.sau.iterable.Range.range;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.persistense.PreferencesHelper;
 import android.test.AndroidTestCase;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * A normal test class, for more details {@link AndroidTestCase}
@@ -29,6 +36,8 @@ public class TestSauLibrary extends AndroidTestCase {
 		Foo foo2 = (Foo) JsonUtils.fromJsonOrNull("{\"valueInt\":128,\"\":-67.87f,\"valueString\":\"FooT\",\"valuesDouble\":[1.2,1.4]}", Foo.class);
 		Foo fooDifferent = new Foo();
 		fooDifferent.randomize();
+		Type type = new TypeToken<ArrayList<Foo>>() {
+		}.getType();
 
 		PreferencesHelper preferences = new PreferencesHelper(getContext());
 		String keyBooleanTrue = "keyBooleanTrue";
@@ -38,17 +47,32 @@ public class TestSauLibrary extends AndroidTestCase {
 		String keyLong = "keyLong";
 		String keyString = "keyString";
 		String keyObject = "keyObject";
+		String keyArray = "keyArray";
 		String keyMockBoolean = "keyMockBoolean";
 		String keyMockFloat = "keyMockFloat";
 		String keyMockInt = "keyMockInt";
 		String keyMockLong = "keyMockLong";
 		String keyMockString = "keyMockString";
 		String keyMockObject = "keyMockObject";
+		String keyMockArray = "keyMockArray";
 		float floatPreferencesValue = 78632.767f;
 		int intPreferencesValue = 879839;
 		long longPreferencesValue = 93039902332l;
 		String stringPreferencesValue = "Quanto teste é esse oO";
 		Foo objectPreferencesValue = new Foo();
+		ArrayList<Foo> arrayListPreferencesValue = new ArrayList<Foo>();
+		ArrayList<Foo> arrayListDifferent = new ArrayList<Foo>();
+		Foo foo;
+		for (int i : range(3)) {
+			foo = new Foo();
+			foo.valueInt = i;
+			arrayListPreferencesValue.add(foo);
+		}
+		for (int i : range(-7)) {
+			foo = new Foo();
+			foo.valueInt = i;
+			arrayListDifferent.add(foo);
+		}
 
 		preferences.put(keyBooleanTrue, true);
 		preferences.put(keyBooleanFalse, false);
@@ -57,6 +81,7 @@ public class TestSauLibrary extends AndroidTestCase {
 		preferences.put(keyLong, longPreferencesValue);
 		preferences.put(keyString, stringPreferencesValue);
 		preferences.put(keyObject, objectPreferencesValue);
+		preferences.put(keyArray, arrayListPreferencesValue);
 
 		Foo objectPreferencesValueValidateWithDef = (Foo) preferences.getObject(keyObject, Foo.class, objectPreferencesValue);
 		Foo objectPreferencesValueValidateWithDefDifferent = (Foo) preferences.getObject(keyObject, Foo.class, fooDifferent);
@@ -80,6 +105,18 @@ public class TestSauLibrary extends AndroidTestCase {
 		boolean booleanPreferencesValueValidateFalse = preferences.getBooleanOrTrue(keyBooleanFalse);
 		boolean booleanPreferencesValueValidateTrueMock = preferences.getBooleanOrFalse(keyMockBoolean);
 		boolean booleanPreferencesValueValidateFalseMock = preferences.getBooleanOrTrue(keyMockBoolean);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithDef = (ArrayList<Foo>) preferences.getObject(keyArray, type, arrayListPreferencesValue);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithDefDifferent = (ArrayList<Foo>) preferences.getObject(keyArray, type, arrayListDifferent);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithoutDef = (ArrayList<Foo>) preferences.getObjectOrNull(keyArray, type);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithDefMock = (ArrayList<Foo>) preferences.getObject(keyMockArray, type, arrayListPreferencesValue);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithDefDifferentMock = (ArrayList<Foo>) preferences.getObject(keyMockArray, type, arrayListDifferent);
+		@SuppressWarnings("unchecked")
+		ArrayList<Foo> arrayListPreferencesValueValidateWithoutDefMock = (ArrayList<Foo>) preferences.getObjectOrNull(keyMockArray, type);
 
 		// assets
 		assertEquals(param1JsonValidate, param1Json);
@@ -130,6 +167,12 @@ public class TestSauLibrary extends AndroidTestCase {
 		assertTrue(booleanPreferencesValueValidateFalseMock);
 		assertFalse(booleanPreferencesValueValidateFalse);
 		assertFalse(booleanPreferencesValueValidateTrueMock);
+		assertTrue(assertFooArrayList(arrayListPreferencesValue, arrayListPreferencesValueValidateWithDef));
+		assertTrue(assertFooArrayList(arrayListPreferencesValue, arrayListPreferencesValueValidateWithDefDifferent));
+		assertTrue(assertFooArrayList(arrayListPreferencesValue, arrayListPreferencesValueValidateWithoutDef));
+		assertTrue(assertFooArrayList(arrayListPreferencesValue, arrayListPreferencesValueValidateWithDefMock));
+		assertTrue(assertFooArrayList(arrayListDifferent, arrayListPreferencesValueValidateWithDefDifferentMock));
+		assertTrue(assertFooArrayList(arrayListPreferencesValueValidateWithoutDefMock, null));
 
 		// final prints "to test prints too"
 		SimbiLog.print(param1, foo1, foo2);
@@ -139,7 +182,57 @@ public class TestSauLibrary extends AndroidTestCase {
 		SimbiLog.log(this, param1, foo1, null, foo2);
 		SimbiLog.log(null, param1, foo1, null, foo2);
 		SimbiLog.log(1, param1, foo1, null, foo2);
+		SimbiLog.print(arrayListPreferencesValue);
+		SimbiLog.print(arrayListPreferencesValueValidateWithoutDef);
 		SimbiLog.print();
 		SimbiLog.here();
+	}
+
+	/**
+	 * Only a helper method
+	 * 
+	 * @param fooA
+	 *            {@link ArrayList} of {@link Foo} objects to compare
+	 * @param fooB
+	 *            {@link ArrayList} of {@link Foo} objects to compare
+	 * @return <code>true</code> if the list are equals, <code>false</code> otherside
+	 */
+	private boolean assertFooArrayList(ArrayList<Foo> fooA, ArrayList<Foo> fooB) {
+		if (fooA == null && fooB == null)
+			return true;
+		if ((fooA == null && fooB != null) || (fooA != null && fooB == null))
+			return false;
+		if (fooA.size() != fooB.size())
+			return false;
+		Foo fa;
+		Foo fb;
+		for (int i : range(fooA.size())) {
+			fa = fooA.get(i);
+			fb = fooB.get(i);
+			if (fa == null && fb == null)
+				return true;
+			if ((fa == null && fb != null) || (fa != null && fb == null))
+				return false;
+			if (fa.valueFloat != fb.valueFloat)
+				return false;
+			if (fa.valueInt != fb.valueInt)
+				return false;
+			if (fa.valueString == null && fb.valueString == null)
+				return true;
+			if ((fa.valueString == null && fb.valueString != null) || (fa.valueString != null && fb.valueString == null))
+				return false;
+			if (!fa.valueString.equalsIgnoreCase(fb.valueString))
+				return false;
+			if (fa.valuesDouble == null && fb.valuesDouble == null)
+				return true;
+			if ((fa.valuesDouble == null && fb.valuesDouble != null) || (fa.valuesDouble != null && fb.valuesDouble == null))
+				return false;
+			if (fa.valuesDouble.length != fb.valuesDouble.length)
+				return false;
+			for (int j : range(fa.valuesDouble.length))
+				if (fa.valuesDouble[j] != fb.valuesDouble[j])
+					return false;
+		}
+		return true;
 	}
 }
