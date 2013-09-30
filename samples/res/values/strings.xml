@@ -6,5 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="show_a_toaster">Show a Toaster</string>
     <string name="show_user_primary_email">Show the user primary email</string>
+    <string name="resize_me">Resize me!</string>
+    <string name="resize_my_height">Resize my height</string>
+    <string name="resize_my_width">Resize my width</string>
 
 </resources>

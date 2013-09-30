@@ -4,12 +4,15 @@ import static simbio.se.sau.iterable.Range.range;
 import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.share.SimbiShare;
+import simbio.se.sau.view.animation.ResizeAnimation;
 import simbio.se.sau.widget.ToastMaker;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Toast;
 
 /**
@@ -17,7 +20,14 @@ import android.widget.Toast;
  * @date 2013-aŭg-21 06:02:21
  * 
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements AnimationListener {
+
+	private boolean hasResized = false;
+	private boolean hasHeightResized = false;
+	private boolean hasWidthResized = false;
+
+	private static final int resizeChange = 200;
+	private static final int resizeDuration = 300;
 
 	// Activity methods with override implementation
 
@@ -86,5 +96,58 @@ public class MainActivity extends Activity {
 
 	public void showUserEmail(View view) {
 		ToastMaker.toast(getApplicationContext(), new DeviceInformationsManager(getApplicationContext()).getPrimaryUserEmailOrNull());
+	}
+
+	public void resize(View view) {
+		ResizeAnimation resizeAnimation;
+		if (hasResized)
+			resizeAnimation = new ResizeAnimation(view, view.getHeight() - resizeChange, view.getWidth() + resizeChange);
+		else
+			resizeAnimation = new ResizeAnimation(view, view.getHeight() + resizeChange, view.getWidth() - resizeChange);
+		hasResized = !hasResized;
+		resizeAnimation.setDuration(resizeDuration);
+		resizeAnimation.setAnimationListener(this);
+		view.startAnimation(resizeAnimation);
+	}
+
+	public void resizeHeight(View view) {
+		ResizeAnimation resizeAnimation;
+		if (hasHeightResized)
+			resizeAnimation = new ResizeAnimation(view, view.getHeight() - resizeChange, true);
+		else
+			resizeAnimation = new ResizeAnimation(view, view.getHeight() + resizeChange, true);
+		hasHeightResized = !hasHeightResized;
+		resizeAnimation.setDuration(resizeDuration);
+		resizeAnimation.setAnimationListener(this);
+		view.startAnimation(resizeAnimation);
+	}
+
+	public void resizeWidth(View view) {
+		ResizeAnimation resizeAnimation;
+		if (hasWidthResized)
+			resizeAnimation = new ResizeAnimation(view, view.getWidth() + resizeChange, false);
+		else
+			resizeAnimation = new ResizeAnimation(view, view.getWidth() - resizeChange, false);
+		hasWidthResized = !hasWidthResized;
+		resizeAnimation.setDuration(resizeDuration);
+		resizeAnimation.setAnimationListener(this);
+		view.startAnimation(resizeAnimation);
+	}
+
+	// interfaces methods
+
+	@Override
+	public void onAnimationEnd(Animation animation) {
+		SimbiLog.log(this);
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation) {
+		SimbiLog.log(this);
+	}
+
+	@Override
+	public void onAnimationStart(Animation animation) {
+		SimbiLog.log(this);
 	}
 }

@@ -38,6 +38,7 @@ You also can see the documentation on /doc/index.html
  - AbstractSauException - Created
  - Range - Created
  - DeviceInformationsManager - Created
+ - ResizeAnimation - Created
 
 ### Version 1.0.0
  - SimbiLog - Created

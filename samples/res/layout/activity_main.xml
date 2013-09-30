@@ -27,4 +27,34 @@
         android:onClick="showUserEmail"
         android:text="@string/show_user_primary_email" />
 
+    <Button
+        android:id="@+id/button_resize_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button_show_user_primary_email"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="resize"
+        android:text="@string/resize_me" />
+
+    <Button
+        android:id="@+id/button_resize_my_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button_resize_me"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="resizeHeight"
+        android:text="@string/resize_my_height" />
+
+    <Button
+        android:id="@+id/button_resize_my_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button_resize_my_height"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="resizeWidth"
+        android:text="@string/resize_my_width" />
+
 </RelativeLayout>
