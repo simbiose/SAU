@@ -1,60 +1,72 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button_show_toaster"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:onClick="showToaster"
-        android:text="@string/show_a_toaster" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <Button
-        android:id="@+id/button_show_user_primary_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_show_toaster"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="showUserEmail"
-        android:text="@string/show_user_primary_email" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent" >
 
-    <Button
-        android:id="@+id/button_resize_me"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_show_user_primary_email"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="resize"
-        android:text="@string/resize_me" />
+            <Button
+                android:id="@+id/button_show_toaster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:onClick="showToaster"
+                android:text="@string/show_a_toaster" />
 
-    <Button
-        android:id="@+id/button_resize_my_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_resize_me"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="resizeHeight"
-        android:text="@string/resize_my_height" />
+            <Button
+                android:id="@+id/button_show_user_primary_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_show_toaster"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="showUserEmail"
+                android:text="@string/show_user_primary_email" />
 
-    <Button
-        android:id="@+id/button_resize_my_width"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_resize_my_height"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="resizeWidth"
-        android:text="@string/resize_my_width" />
+            <Button
+                android:id="@+id/button_resize_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_show_user_primary_email"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="resize"
+                android:text="@string/resize_me" />
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/button_resize_my_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_resize_me"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="resizeHeight"
+                android:text="@string/resize_my_height" />
+
+            <Button
+                android:id="@+id/button_resize_my_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_resize_my_height"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="resizeWidth"
+                android:text="@string/resize_my_width" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
