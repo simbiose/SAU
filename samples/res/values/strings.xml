@@ -9,5 +9,6 @@
     <string name="resize_me">Resize me!</string>
     <string name="resize_my_height">Resize my height</string>
     <string name="resize_my_width">Resize my width</string>
+    <string name="show_range_seek_bar">Show a range seek bar</string>
 
 </resources>

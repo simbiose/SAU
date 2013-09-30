@@ -4,9 +4,13 @@ import static simbio.se.sau.iterable.Range.range;
 import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.share.SimbiShare;
+import simbio.se.sau.view.RangeSeekBar;
 import simbio.se.sau.view.animation.ResizeAnimation;
+import simbio.se.sau.view.interfaces.IRangeSeekBar;
 import simbio.se.sau.widget.ToastMaker;
 import android.app.Activity;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +24,7 @@ import android.widget.Toast;
  * @date 2013-aŭg-21 06:02:21
  * 
  */
-public class MainActivity extends Activity implements AnimationListener {
+public class MainActivity extends Activity implements AnimationListener, IRangeSeekBar<Integer> {
 
 	private boolean hasResized = false;
 	private boolean hasHeightResized = false;
@@ -47,6 +51,16 @@ public class MainActivity extends Activity implements AnimationListener {
 			SimbiLog.print("range example c", i);
 		for (int i : range(-5, -30, 10))
 			SimbiLog.print("range example d", i);
+
+		// range seek bar
+		@SuppressWarnings("unchecked")
+		RangeSeekBar<Integer> rangeSeekBar = (RangeSeekBar<Integer>) findViewById(R.id.range_seek_bar);
+		rangeSeekBar.init(0, 100, BitmapFactory.decodeResource(getResources(), R.drawable.scrubber_control_normal_holo), BitmapFactory.decodeResource(getResources(), R.drawable.scrubber_control_pressed_holo), this);
+		rangeSeekBar.setNotifyWhileDragging(true);
+		rangeSeekBar.setNormalizedMinValue(0.3f);
+		rangeSeekBar.setNormalizedMaxValue(0.7f);
+		rangeSeekBar.setNotifyWhileDragging(true);
+		rangeSeekBar.setLineColor(Color.rgb(0, 153, 0));
 	}
 
 	@Override
@@ -149,5 +163,15 @@ public class MainActivity extends Activity implements AnimationListener {
 	@Override
 	public void onAnimationStart(Animation animation) {
 		SimbiLog.log(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.sau.view.RangeSeekBar.OnRangeSeekBarChangeListener#onRangeSeekBarValuesChanged(simbio.se.sau.view.RangeSeekBar, java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+		SimbiLog.print(minValue, maxValue);
 	}
 }

@@ -39,6 +39,10 @@ You also can see the documentation on /doc/index.html
  - Range - Created
  - DeviceInformationsManager - Created
  - ResizeAnimation - Created
+ - RangeSeekBar - Created
+ - RangeSeekBarNumberType - Created
+ - RangeSeekBarThumb - Created
+ - IRangeSeekBar - Created
 
 ### Version 1.0.0
  - SimbiLog - Created

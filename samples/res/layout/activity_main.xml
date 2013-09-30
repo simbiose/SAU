@@ -66,6 +66,14 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:onClick="resizeWidth"
                 android:text="@string/resize_my_width" />
+
+            <simbio.se.sau.view.RangeSeekBar
+                android:id="@+id/range_seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_resize_my_width"
+                android:layout_marginTop="@dimen/activity_vertical_margin" />
         </RelativeLayout>
     </LinearLayout>
 
