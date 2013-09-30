@@ -30,6 +30,9 @@ You also can see the documentation on /doc/index.html
  - API enum - Created
  - SimbiShare - Created
  - Samples project - Created
+ - Range - Created
+ - PreferencesHelper - Added methods
+ - TestProject - Added tests on macro
 
 ### Version 1.0.0
  - SimbiLog - Created
@@ -42,4 +45,3 @@ You also can see the documentation on /doc/index.html
  - Documentation - Created
  - License - Created
  - README - Created
-
