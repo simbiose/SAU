@@ -33,6 +33,7 @@ You also can see the documentation on /doc/index.html
  - Range - Created
  - PreferencesHelper - Added methods
  - TestProject - Added tests on macro
+ - Change the package of "views.list" to "adapters"
 
 ### Version 1.0.0
  - SimbiLog - Created
