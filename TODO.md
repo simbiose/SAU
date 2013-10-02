@@ -4,6 +4,7 @@
  - *Move changelog to a separated file*
  - Encrypt Module
  - Login Module
+ - ClipboardTextView
 
 ### Version 4.0.0
  - SQLite Helper
