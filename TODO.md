@@ -8,3 +8,4 @@
 
 ### Version 4.0.0
  - SQLite Helper
+ - HashMap with Key <-> Key
