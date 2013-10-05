@@ -5,6 +5,7 @@
  - Encrypt Module
  - Login Module
  - ClipboardTextView
+ - Open activity with file
 
 ### Version 4.0.0
  - SQLite Helper
