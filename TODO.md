@@ -6,7 +6,10 @@
  - Login Module
  - ClipboardTextView
  - Open activity with file
+ - HashMap with Key <-> Key
 
 ### Version 4.0.0
+ - Internet Delegates
+
+### Version 5.0.0
  - SQLite Helper
- - HashMap with Key <-> Key
