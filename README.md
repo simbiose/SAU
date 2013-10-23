@@ -25,5 +25,5 @@ Clone with recursive tag the sau repository and import the /android project name
 You also can see the documentation on /doc/index.html
 
 ##Get It
-- <https://bitbucket.org/simbiose/sau/overview>
-- <https://github.com/simbiose/SAU>
+- BitBucket <https://bitbucket.org/simbiose/sau/overview>
+- GitHub <https://github.com/simbiose/SAU>
