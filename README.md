@@ -23,3 +23,7 @@ Fell free to fork, modify and send a pull request.
 
 Clone with recursive tag the sau repository and import the /android project named SAU to eclipse and add it a android library on your android application and now you're ready to use it.
 You also can see the documentation on /doc/index.html
+
+##Get It
+- <https://bitbucket.org/simbiose/sau/overview>
+- <https://github.com/simbiose/SAU>
