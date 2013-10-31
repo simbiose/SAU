@@ -7,6 +7,7 @@
  - ClipboardTextView
  - Open activity with file
  - HashMap with Key <-> Key
+ - add a log string "no json"
 
 ### Version 4.0.0
  - Internet Delegates
