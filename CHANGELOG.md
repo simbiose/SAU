@@ -4,6 +4,7 @@
  - Move the Changelog to a diferent file
  - Create a todo file
  - Deleted doc folder
+ - Added Shiva, a sql query creator to java as submodule
 
 ### Version 2.0.0
  - API enum - Created

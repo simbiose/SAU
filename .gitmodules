@@ -1,0 +1,3 @@
+[submodule "modules/shiva"]
+	path = modules/shiva
+	url = https://github.com/simbiose/Shiva.git
