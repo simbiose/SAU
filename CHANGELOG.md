@@ -3,6 +3,7 @@
 ### Version 3.0.0
  - Move the Changelog to a diferent file
  - Create a todo file
+ - Deleted doc folder
 
 ### Version 2.0.0
  - API enum - Created
