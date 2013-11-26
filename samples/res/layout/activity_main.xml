@@ -74,6 +74,16 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/button_resize_my_width"
                 android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+            <Button
+                android:id="@+id/button_open_sql_example_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/range_seek_bar"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="openSqlActivity"
+                android:text="@string/open_sql_example_activity" />
         </RelativeLayout>
     </LinearLayout>
 

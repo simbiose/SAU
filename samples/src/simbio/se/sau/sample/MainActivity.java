@@ -9,6 +9,7 @@ import simbio.se.sau.view.animation.ResizeAnimation;
 import simbio.se.sau.view.interfaces.IRangeSeekBar;
 import simbio.se.sau.widget.ToastMaker;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -86,6 +87,10 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	}
 
 	// onclicks
+
+	public void openSqlActivity(View view) {
+		startActivity(new Intent(getApplicationContext(), SqlExampleActivity.class));
+	}
 
 	public void showToaster(View view) {
 		int random = (int) (Math.random() * 5.0);

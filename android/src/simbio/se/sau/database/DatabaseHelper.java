@@ -1,7 +1,7 @@
 package simbio.se.sau.database;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 import simbio.se.sau.API;
 import simbio.se.shiva.Shiva;
@@ -26,9 +26,9 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	protected Handler handler;
 
 	/**
-	 * @return
+	 * @return a {@link List} of {@link Class} of models useds on sql
 	 */
-	protected abstract Set<Class<?>> getModelsToBeCreatedOnDatabase();
+	protected abstract List<Class<?>> getModelsToBeCreatedOnDatabase();
 
 	/**
 	 * Default constructor
@@ -76,7 +76,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Set<Class<?>> clazzez = getModelsToBeCreatedOnDatabase();
+		List<Class<?>> clazzez = getModelsToBeCreatedOnDatabase();
 		if (clazzez != null)
 			for (Class<?> clazz : clazzez)
 				onCreateHelper(db, clazz);
@@ -231,6 +231,26 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public void selectAll(Class<?> clazz, int requestId) {
 		select(clazz, null, null, null, null, requestId);
+	}
+
+	/**
+	 * Delete all data, Caution!
+	 * 
+	 * @param requestId
+	 *            the reques id
+	 * @param clazz
+	 *            the {@link Class} type to be deleted on database
+	 * @since {@link API#Version_3_0_0}
+	 */
+	public void clearTable(final int requestId, final Class<?> clazz) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+				sqLiteDatabase.delete(Shiva.toTableName(clazz), null, null);
+				sendRequestSuccess(requestId, null);
+			}
+		}).start();
 	}
 
 	/**

@@ -10,5 +10,13 @@
     <string name="resize_my_height">Resize my height</string>
     <string name="resize_my_width">Resize my width</string>
     <string name="show_range_seek_bar">Show a range seek bar</string>
+    <string name="open_sql_example_activity">Open sql example activity</string>
+    <string name="type_a_text_to_be_added">type a text to be added</string>
+    <string name="add_on_sql">Add on sql</string>
+    <string name="reload_from_sql">Reload from sql</string>
+    <string name="clear_sql">Clear sql</string>
+    <string name="delete_it">Delete it</string>
+    <string name="no_data">No Data Yet!</string>
+    <string name="added_on">Added at %s</string>
 
 </resources>
