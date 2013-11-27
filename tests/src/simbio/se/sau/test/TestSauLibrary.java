@@ -7,10 +7,13 @@ import static simbio.se.sau.iterable.Range.range;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.persistense.PreferencesHelper;
+import simbio.se.sau.utilities.NullOrEmpty;
 import android.test.AndroidTestCase;
 
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +30,7 @@ public class TestSauLibrary extends AndroidTestCase {
 	 * A normal test method, for more details {@link AndroidTestCase}
 	 */
 	public final void testSomething() {
-		// Objects to tests
+		// test shared preferences
 		Object[] param1 = { "1", 2, null, 4.6f, new Object[] {} };
 		String param1Json = JsonUtils.toJson(param1);
 		String param1JsonValidate = "[\"1\",2,null,4.6,[]]";
@@ -118,7 +121,6 @@ public class TestSauLibrary extends AndroidTestCase {
 		@SuppressWarnings("unchecked")
 		ArrayList<Foo> arrayListPreferencesValueValidateWithoutDefMock = (ArrayList<Foo>) preferences.getObjectOrNull(keyMockArray, type);
 
-		// assets
 		assertEquals(param1JsonValidate, param1Json);
 		assertEquals(foo1.valueFloat, foo2.valueFloat);
 		assertEquals(foo1.valueInt, foo2.valueInt);
@@ -174,7 +176,7 @@ public class TestSauLibrary extends AndroidTestCase {
 		assertTrue(assertFooArrayList(arrayListDifferent, arrayListPreferencesValueValidateWithDefDifferentMock));
 		assertTrue(assertFooArrayList(arrayListPreferencesValueValidateWithoutDefMock, null));
 
-		// final prints "to test prints too"
+		// test prints
 		SimbiLog.print(param1, foo1, foo2);
 		SimbiLog.print("Message from Assert");
 		SimbiLog.printException(new Exception("A mock exception to test printException method"));
@@ -186,6 +188,38 @@ public class TestSauLibrary extends AndroidTestCase {
 		SimbiLog.print(arrayListPreferencesValueValidateWithoutDef);
 		SimbiLog.print();
 		SimbiLog.here();
+
+		// test Null Or Empty
+		ArrayList<Foo> fooArrayList = new ArrayList<Foo>();
+		HashSet<Foo> fooHashSet = new HashSet<Foo>();
+		HashMap<Foo, Foo> fooHashMap = new HashMap<Foo, Foo>();
+		Foo[] foosEmpty = new Foo[0];
+		Foo[] foosNotEmpty = new Foo[1];
+		int[] intsEmpty = new int[0];
+		int[] intsNotEmpty = new int[1];
+		String string = new String();
+		Foo fooNullOrEmpty = new Foo();
+
+		assertTrue(NullOrEmpty.verify(null));
+		assertTrue(NullOrEmpty.verify(fooArrayList));
+		assertTrue(NullOrEmpty.verify(fooHashSet));
+		assertTrue(NullOrEmpty.verify(fooHashMap));
+		assertTrue(NullOrEmpty.verify(foosEmpty));
+		assertTrue(NullOrEmpty.verify(intsEmpty));
+		assertTrue(NullOrEmpty.verify(string));
+
+		fooArrayList.add(fooNullOrEmpty);
+		fooHashSet.add(fooNullOrEmpty);
+		fooHashMap.put(fooNullOrEmpty, fooNullOrEmpty);
+		string = new String("Foo");
+
+		assertFalse(NullOrEmpty.verify(fooArrayList));
+		assertFalse(NullOrEmpty.verify(fooHashSet));
+		assertFalse(NullOrEmpty.verify(fooHashMap));
+		assertFalse(NullOrEmpty.verify(foosNotEmpty));
+		assertFalse(NullOrEmpty.verify(intsNotEmpty));
+		assertFalse(NullOrEmpty.verify(string));
+		assertFalse(NullOrEmpty.verify(fooNullOrEmpty));
 	}
 
 	/**
