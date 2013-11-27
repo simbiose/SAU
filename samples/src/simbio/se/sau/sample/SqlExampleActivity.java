@@ -67,7 +67,7 @@ public class SqlExampleActivity extends Activity implements DatabaseDelegate, Sq
 	public void reloadData(View view) {
 		listView.setVisibility(View.INVISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
-		new SqlManager(getApplicationContext(), this).selectAll(SqlFooModel.class, REQUEST_LOAD);
+		new SqlManager(getApplicationContext(), this).select(SqlFooModel.class, REQUEST_LOAD);
 	}
 
 	public void addText(View view) {
@@ -80,7 +80,7 @@ public class SqlExampleActivity extends Activity implements DatabaseDelegate, Sq
 
 	@Override
 	public void delete(int index) {
-		new SqlManager(getApplicationContext(), this).delete(getAdapterModels().get(index), null, null, REQUEST_DELETE);
+		new SqlManager(getApplicationContext(), this).delete(getAdapterModels().get(index), REQUEST_DELETE);
 	}
 
 	@Override

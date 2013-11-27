@@ -3,6 +3,8 @@
  */
 package simbio.se.sau.sample.sql;
 
+import java.util.Date;
+
 import simbio.se.sau.model.IAbstractModel;
 
 /**
@@ -18,6 +20,7 @@ public class SqlFooModel implements IAbstractModel {
 
 	public SqlFooModel(String text) {
 		this.text = text;
+		this.time = new Date().getTime();
 	}
 
 	public SqlFooModel() {

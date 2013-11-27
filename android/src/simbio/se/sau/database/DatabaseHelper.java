@@ -136,7 +136,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Inserta {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Inserta {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param object
 	 *            the {@link Object} to be saved
@@ -155,7 +155,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Inserta {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Inserta {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param objects
 	 *            an {@link ArrayList} of {@link Object} to be saved
@@ -173,7 +173,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 					SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 					for (Object object : objects)
 						if (object != null)
-							sqLiteDatabase.insert(Shiva.toTableName(object), null, ShivaAndroidUtils.getContentValuesFromObject(object));
+							sqLiteDatabase.execSQL(Shiva.toInsertQuery(object));
 					sendRequestSuccess(requestId, objects);
 				}
 			}
@@ -185,20 +185,12 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 * 
 	 * @param clazz
 	 *            the {@link Class} to be selected, it means, the return will be a list of that objects. a <code>null</code> causes {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)} with {@link NullPointerException}
-	 * @param tableColumns
-	 *            A list of which columns to return. Passing null will return all columns, which is discouraged to prevent reading data from storage that isn't going to be used.
-	 * @param whereClause
-	 *            A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
-	 * @param whereArgs
-	 *            You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
-	 * @param orderBy
-	 *            A filter declaring how to group rows, formatted as an SQL GROUP BY clause (excluding the GROUP BY itself). Passing null will cause the rows to not be grouped.
 	 * @param requestId
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @see SQLiteDatabase#query(String, String[], String, String[], String, String, String)
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void select(final Class<?> clazz, final String[] tableColumns, final String whereClause, final String[] whereArgs, final String orderBy, final int requestId) {
+	public void select(final Class<?> clazz, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -208,29 +200,15 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 				}
 				ArrayList<Object> objects = new ArrayList<Object>();
 				SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-				Cursor cursor = sqLiteDatabase.query(Shiva.toTableName(clazz), tableColumns, whereClause, whereArgs, null, null, orderBy);
+				Cursor cursor = sqLiteDatabase.rawQuery(Shiva.toSelectQuery(clazz), null);
 				if (cursor.moveToFirst())
 					do {
-						objects.add(ShivaAndroidUtils.getObjectFromCursor(clazz, cursor, tableColumns));
+						objects.add(ShivaAndroidUtils.getObjectFromCursor(clazz, cursor));
 					} while (cursor.moveToNext());
 				sendRequestSuccess(requestId, objects);
 				cursor.close();
 			}
 		}).start();
-	}
-
-	/**
-	 * This method just calls the {@link DatabaseHelper#select(WritableSql, String[], String, String[], String, int)} method with null params where it cause an all selection
-	 * 
-	 * @param example
-	 *            the {@link Class} of example, it means, the return will be a list of that objects. a <code>null</code> causes {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)} with {@link NullPointerException}
-	 * @param requestId
-	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
-	 * @see {@link DatabaseHelper#select(WritableSql, String[], String, String[], String, int)}
-	 * @since {@link API#Version_3_0_0}
-	 */
-	public void selectAll(Class<?> clazz, int requestId) {
-		select(clazz, null, null, null, null, requestId);
 	}
 
 	/**
@@ -243,14 +221,13 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 * @since {@link API#Version_3_0_0}
 	 */
 	public void clearTable(final int requestId, final Class<?> clazz) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-				sqLiteDatabase.delete(Shiva.toTableName(clazz), null, null);
-				sendRequestSuccess(requestId, null);
-			}
-		}).start();
+		if (clazz == null)
+			sendRequestFail(requestId, new NullPointerException());
+		else {
+			ArrayList<Class<?>> clazzez = new ArrayList<Class<?>>();
+			clazzez.add(clazz);
+			clearTables(requestId, clazzez);
+		}
 	}
 
 	/**
@@ -267,52 +244,43 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 			@Override
 			public void run() {
 				SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-
 				for (Class<?> clazz : clazzez)
-					sqLiteDatabase.delete(Shiva.toTableName(clazz), null, null);
-
+					if (clazz != null)
+						sqLiteDatabase.delete(Shiva.toTableName(clazz), null, null);
 				sendRequestSuccess(requestId, null);
 			}
 		}).start();
 	}
 
 	/**
-	 * Delete {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Update {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param object
 	 *            the {@link Object} to be saved
-	 * @param whereClause
-	 *            A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
-	 * @param whereArgs
-	 *            You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
 	 * @param requestId
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void delete(Object object, final String whereClause, final String[] whereArgs, int requestId) {
+	public void update(Object object, int requestId) {
 		if (object == null)
 			sendRequestFail(requestId, new NullPointerException());
 		else {
 			ArrayList<Object> objects = new ArrayList<Object>();
 			objects.add(object);
-			delete(objects, whereClause, whereArgs, requestId);
+			update(objects, requestId);
 		}
 	}
 
 	/**
-	 * Delete {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Update {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param objects
-	 *            an {@link ArrayList} of {@link Object} to be deleted
-	 * @param whereClause
-	 *            A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
-	 * @param whereArgs
-	 *            You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
+	 *            an {@link ArrayList} of {@link Object} to be saved
 	 * @param requestId
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void delete(final ArrayList<Object> objects, final String whereClause, final String[] whereArgs, final int requestId) {
+	public void update(final ArrayList<Object> objects, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -322,7 +290,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 					SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 					for (Object object : objects)
 						if (object != null)
-							sqLiteDatabase.delete(Shiva.toTableName(object), whereClause, whereArgs);
+							sqLiteDatabase.execSQL(Shiva.toUpdateQuery(object));
 					sendRequestSuccess(requestId, objects);
 				}
 			}
@@ -330,42 +298,34 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Update {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Delete {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param object
 	 *            the {@link Object} to be saved
-	 * @param whereClause
-	 *            A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
-	 * @param whereArgs
-	 *            You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
 	 * @param requestId
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void update(Object object, final String whereClause, final String[] whereArgs, int requestId) {
+	public void delete(Object object, int requestId) {
 		if (object == null)
 			sendRequestFail(requestId, new NullPointerException());
 		else {
 			ArrayList<Object> objects = new ArrayList<Object>();
 			objects.add(object);
-			update(objects, whereClause, whereArgs, requestId);
+			delete(objects, requestId);
 		}
 	}
 
 	/**
-	 * Update {@link WritableSql} on database, this will run on a background {@link Thread}
+	 * Update {@link Object} on database, this will run on a background {@link Thread}
 	 * 
 	 * @param objects
 	 *            an {@link ArrayList} of {@link Object} to be saved
-	 * @param whereClause
-	 *            A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
-	 * @param whereArgs
-	 *            You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
 	 * @param requestId
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void update(final ArrayList<?> objects, final String whereClause, final String[] whereArgs, final int requestId) {
+	public void delete(final ArrayList<Object> objects, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -375,7 +335,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 					SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 					for (Object object : objects)
 						if (object != null)
-							sqLiteDatabase.update(Shiva.toTableName(object), ShivaAndroidUtils.getContentValuesFromObject(object), whereClause, whereArgs);
+							sqLiteDatabase.execSQL(Shiva.toDeletQuery(object));
 					sendRequestSuccess(requestId, objects);
 				}
 			}
