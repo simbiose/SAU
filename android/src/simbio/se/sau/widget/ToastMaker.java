@@ -86,4 +86,17 @@ public class ToastMaker {
 		Toast.makeText(context, "Here", Toast.LENGTH_LONG).show();
 	}
 
+	/**
+	 * This method show a toast using the {@link Toast#LENGTH_LONG} as duration and "Here" as message text, more details see {@link Toast#makeText(Context, CharSequence, int)} and {@link Toast#show()}
+	 * 
+	 * @param context
+	 *            the {@link Context} to be used, more details see {@link Toast#makeText(Context, CharSequence, int)}
+	 * @param e
+	 *            an {@link Exception} to be toasted
+	 * @since {@link API#Version_3_0_0}
+	 */
+	public static void toast(Context context, Exception e) {
+		Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+	}
+
 }

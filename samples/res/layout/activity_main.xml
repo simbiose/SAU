@@ -105,6 +105,16 @@
                 android:ems="10"
                 android:hint="@string/try_past_here"
                 android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/button_open_document_example_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/edttext_try_past"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="openDocActivity"
+                android:text="@string/open_documents_example_activity" />
         </RelativeLayout>
     </LinearLayout>
 

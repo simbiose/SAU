@@ -12,6 +12,8 @@
  - Added Key Key Map
  - Added the plain text log
  - Added a Clip Board Text View
+ - Added a method on ToastMaket to toast exceptions directly
+ - Added the Activity utilities
 
 ### Version 2.0.0
  - API enum - Created

@@ -5,10 +5,11 @@
  - Encrypt Module
  - *Null or empty utils*
  - *ClipboardTextView*
- - Open activity with file
+ - *Open activity with file*
  - *HashMap with Key <-> Key*
  - *add a log string "no json"*
  - *SQLite Helper*
+ - *Copy files from assest*
 
 ### Version 4.0.0
  - Internet Delegates
