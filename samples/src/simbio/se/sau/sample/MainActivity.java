@@ -4,6 +4,8 @@ import static simbio.se.sau.iterable.Range.range;
 import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.share.SimbiShare;
+import simbio.se.sau.view.ClipboardTextView;
+import simbio.se.sau.view.ClipboardTextView.CopiedInterface;
 import simbio.se.sau.view.RangeSeekBar;
 import simbio.se.sau.view.animation.ResizeAnimation;
 import simbio.se.sau.view.interfaces.IRangeSeekBar;
@@ -25,7 +27,7 @@ import android.widget.Toast;
  * @date 2013-aŭg-21 06:02:21
  * 
  */
-public class MainActivity extends Activity implements AnimationListener, IRangeSeekBar<Integer> {
+public class MainActivity extends Activity implements AnimationListener, IRangeSeekBar<Integer>, CopiedInterface {
 
 	private boolean hasResized = false;
 	private boolean hasHeightResized = false;
@@ -62,6 +64,8 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 		rangeSeekBar.setNormalizedMaxValue(0.7f);
 		rangeSeekBar.setNotifyWhileDragging(true);
 		rangeSeekBar.setLineColor(Color.rgb(0, 153, 0));
+
+		((ClipboardTextView) findViewById(R.id.clipboard_text_view)).setCopyListener(this);
 	}
 
 	@Override
@@ -178,5 +182,26 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	@Override
 	public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
 		SimbiLog.print(minValue, maxValue);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		SimbiLog.printText("clicked", v);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.sau.view.ClipboardTextView.CopiedInterface#textHasCopied(simbio.se.sau.view.ClipboardTextView, java.lang.String, boolean)
+	 */
+	@Override
+	public void textHasCopied(ClipboardTextView clipboardTextView, String stringCopied, boolean hasSucces) {
+		SimbiLog.print(stringCopied, hasSucces);
+		ToastMaker.toast(getApplicationContext(), stringCopied);
 	}
 }

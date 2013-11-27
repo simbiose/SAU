@@ -11,6 +11,7 @@
  - Added Null or Empty util
  - Added Key Key Map
  - Added the plain text log
+ - Added a Clip Board Text View
 
 ### Version 2.0.0
  - API enum - Created

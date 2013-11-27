@@ -84,6 +84,27 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:onClick="openSqlActivity"
                 android:text="@string/open_sql_example_activity" />
+
+            <simbio.se.sau.view.ClipboardTextView
+                android:id="@+id/clipboard_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_open_sql_example_activity"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/copy_me"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <EditText
+                android:id="@+id/edttext_try_past"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/clipboard_text_view"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:ems="10"
+                android:hint="@string/try_past_here"
+                android:inputType="textMultiLine" />
         </RelativeLayout>
     </LinearLayout>
 

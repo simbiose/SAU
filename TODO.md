@@ -4,7 +4,7 @@
  - *Move changelog to a separated file*
  - Encrypt Module
  - *Null or empty utils*
- - ClipboardTextView
+ - *ClipboardTextView*
  - Open activity with file
  - *HashMap with Key <-> Key*
  - *add a log string "no json"*
