@@ -1,7 +1,7 @@
 Simbiose Android Utils (SAU)
 ----------------------------
 
-This a collection of utilities for android development, like Log Manager, Shared Preferences Management, SQLite management and a lot of others littles things.
+This a collection of utilities for android development, like Log Manager, Shared Preferences Management, SQLite management, Easy share and a lot of others littles things.
 
 ##License
 
