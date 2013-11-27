@@ -5,6 +5,9 @@
  - Create a todo file
  - Deleted doc folder
  - Added Shiva, a sql query creator to java as submodule
+ - Added Sqlite utilities
+ - Added sqlite manager example
+ - Added list view example
 
 ### Version 2.0.0
  - API enum - Created
