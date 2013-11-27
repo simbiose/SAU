@@ -31,7 +31,7 @@ public class SqlListViewAdapter extends AbstractAdapter<SqlFooModel> implements 
 		public void delete(int index);
 	}
 
-	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z", Locale.FRENCH);
+	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.FRENCH);
 
 	public SqlListViewAdapter(Context context, SqlAdapterDelegate delegate) {
 		super(context, delegate, R.layout.list_item_sql);

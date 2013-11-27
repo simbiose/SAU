@@ -37,7 +37,6 @@ public class SqlExampleActivity extends Activity implements DatabaseDelegate, Sq
 	private ProgressBar progressBar;
 	private EditText editText;
 
-	private SqlManager sqlManager;
 	private SqlListViewAdapter adapter;
 	private ArrayList<SqlFooModel> data = new ArrayList<SqlFooModel>();
 
@@ -57,7 +56,6 @@ public class SqlExampleActivity extends Activity implements DatabaseDelegate, Sq
 		editText = (EditText) findViewById(R.id.sql_edt_new_text);
 
 		// create managers
-		sqlManager = new SqlManager(getApplicationContext(), this);
 		adapter = new SqlListViewAdapter(getApplicationContext(), this);
 
 		listView.setEmptyView(findViewById(R.id.sql_textView_empty_view));
@@ -69,20 +67,20 @@ public class SqlExampleActivity extends Activity implements DatabaseDelegate, Sq
 	public void reloadData(View view) {
 		listView.setVisibility(View.INVISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
-		sqlManager.selectAll(SqlFooModel.class, REQUEST_LOAD);
+		new SqlManager(getApplicationContext(), this).selectAll(SqlFooModel.class, REQUEST_LOAD);
 	}
 
 	public void addText(View view) {
-		sqlManager.insert(new SqlFooModel(editText.getText().toString()), REQUEST_ADD);
+		new SqlManager(getApplicationContext(), this).insert(new SqlFooModel(editText.getText().toString()), REQUEST_ADD);
 	}
 
 	public void clearData(View view) {
-		sqlManager.clearTable(REQUEST_DELETE_ALL, SqlFooModel.class);
+		new SqlManager(getApplicationContext(), this).clearTable(REQUEST_DELETE_ALL, SqlFooModel.class);
 	}
 
 	@Override
 	public void delete(int index) {
-		sqlManager.delete(getAdapterModels().get(index), null, null, REQUEST_DELETE);
+		new SqlManager(getApplicationContext(), this).delete(getAdapterModels().get(index), null, null, REQUEST_DELETE);
 	}
 
 	@Override
