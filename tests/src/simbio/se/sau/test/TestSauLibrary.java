@@ -189,6 +189,7 @@ public class TestSauLibrary extends AndroidTestCase {
 		SimbiLog.print(arrayListPreferencesValueValidateWithoutDef);
 		SimbiLog.print();
 		SimbiLog.here();
+		SimbiLog.printText(param1, foo1, foo2, 6, 7.9f, "Text");
 
 		// test Null Or Empty
 		ArrayList<Foo> fooArrayList = new ArrayList<Foo>();

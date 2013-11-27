@@ -44,6 +44,24 @@ public class SimbiLog {
 	}
 
 	/**
+	 * Log a plain text, no json formatted
+	 * 
+	 * @param params
+	 *            to log
+	 * @since {@link API#Version_3_0_0}
+	 */
+	public static void printText(Object... params) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (params == null)
+			stringBuilder.append("Null .:. ");
+		else
+			for (Object object : params)
+				stringBuilder.append((object == null ? "Null" : object.toString())).append(" .:. ");
+		stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length());
+		Log.d(LOG_TOKEN, stringBuilder.toString());
+	}
+
+	/**
 	 * This is a stack trace method, if you want a normal log use {@link SimbiLog#print(Object...)} method. This method print the instance, instance class, parameters and stack trace from {@link Thread} in a json format.
 	 * 
 	 * @param instance
