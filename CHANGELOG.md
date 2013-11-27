@@ -9,6 +9,7 @@
  - Added sqlite manager example
  - Added list view example
  - Added Null or Empty util
+ - Added Key Key Map
 
 ### Version 2.0.0
  - API enum - Created

@@ -13,6 +13,7 @@ import java.util.HashSet;
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.persistense.PreferencesHelper;
+import simbio.se.sau.utilities.KeyKeyMap;
 import simbio.se.sau.utilities.NullOrEmpty;
 import android.test.AndroidTestCase;
 
@@ -220,6 +221,26 @@ public class TestSauLibrary extends AndroidTestCase {
 		assertFalse(NullOrEmpty.verify(intsNotEmpty));
 		assertFalse(NullOrEmpty.verify(string));
 		assertFalse(NullOrEmpty.verify(fooNullOrEmpty));
+
+		// assert key key
+		String key1 = "Key 1";
+		int key2 = 2;
+		Foo key3 = new Foo();
+		KeyKeyMap keyKeyMap = new KeyKeyMap();
+		keyKeyMap.put(key1, key2);
+
+		assertEquals(keyKeyMap.get(key1), key2);
+		assertNull(keyKeyMap.get(key3));
+
+		keyKeyMap.put(key1, key3);
+		assertEquals(keyKeyMap.get(key1), key3);
+		assertEquals(keyKeyMap.get(key3), key1);
+		assertEquals(keyKeyMap.get(key2), key1);
+		assertNull(keyKeyMap.get(null));
+
+		keyKeyMap.put(null, key3);
+		assertEquals(keyKeyMap.get(null), key3);
+		assertNull(keyKeyMap.get(key3));
 	}
 
 	/**
