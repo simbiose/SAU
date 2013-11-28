@@ -2,7 +2,7 @@
 
 ### Version 3.0.0
  - *Move changelog to a separated file*
- - Encrypt Module
+ - *Encrypt Module*
  - *Null or empty utils*
  - *ClipboardTextView*
  - *Open activity with file*
@@ -10,7 +10,5 @@
  - *add a log string "no json"*
  - *SQLite Helper*
  - *Copy files from assest*
-
-### Version 4.0.0
  - Internet Delegates
  - Login Module

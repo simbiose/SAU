@@ -14,6 +14,7 @@
  - Added a Clip Board Text View
  - Added a method on ToastMaket to toast exceptions directly
  - Added the Activity utilities
+ - Added encrypt decrypt module
 
 ### Version 2.0.0
  - API enum - Created
