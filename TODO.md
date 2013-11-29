@@ -11,4 +11,3 @@
  - *SQLite Helper*
  - *Copy files from assest*
  - *Internet Delegates*
- - Login Module
