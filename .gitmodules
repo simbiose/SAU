@@ -1,3 +1,6 @@
 [submodule "modules/shiva"]
 	path = modules/shiva
 	url = https://github.com/simbiose/Shiva.git
+[submodule "modules/loopj"]
+	path = modules/loopj
+	url = https://github.com/loopj/android-async-http.git
