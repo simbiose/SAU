@@ -10,5 +10,5 @@
  - *add a log string "no json"*
  - *SQLite Helper*
  - *Copy files from assest*
- - Internet Delegates
+ - *Internet Delegates*
  - Login Module
