@@ -1,5 +1,8 @@
 ##TODO list
 
+### Version 3.1.0
+ - Record View
+
 ### Version 3.0.0
  - *Move changelog to a separated file*
  - *Encrypt Module*
