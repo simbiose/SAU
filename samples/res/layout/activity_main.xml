@@ -115,6 +115,16 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:onClick="openDocActivity"
                 android:text="@string/open_documents_example_activity" />
+
+            <Button
+                android:id="@+id/button_open_record_example_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/button_open_document_example_activity"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:onClick="openRecActivity"
+                android:text="@string/open_record_example_activity" />
         </RelativeLayout>
     </LinearLayout>
 

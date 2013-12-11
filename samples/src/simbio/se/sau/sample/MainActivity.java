@@ -4,6 +4,7 @@ import static simbio.se.sau.iterable.Range.range;
 import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.sample.documents.ActivityDocumentUtils;
+import simbio.se.sau.sample.record.RecordActivity;
 import simbio.se.sau.share.SimbiShare;
 import simbio.se.sau.view.ClipboardTextView;
 import simbio.se.sau.view.ClipboardTextView.CopiedInterface;
@@ -95,6 +96,10 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 
 	public void openSqlActivity(View view) {
 		startActivity(new Intent(getApplicationContext(), SqlExampleActivity.class));
+	}
+
+	public void openRecActivity(View view) {
+		startActivity(new Intent(getApplicationContext(), RecordActivity.class));
 	}
 
 	public void openDocActivity(View view) {

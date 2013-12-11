@@ -20,11 +20,18 @@
     <string name="added_on">Added at %s</string>
     <string name="copy_me">Tap to Copy Me!</string>
     <string name="try_past_here">Try past here.</string>
-    <string name="open_documents_example_activity">Open documents example activity</string>
+    <string name="open_documents_example_activity">Open documents example</string>
     <string name="open_ods">Open a ods file.</string>
     <string name="open_txt">Open a txt file.</string>
     <string name="open_ogg">Open a ogg file.</string>
     <string name="open_void">Try open a inexistent file.</string>
     <string name="open_null">Try sending null.</string>
+    <string name="record_example">Record Example</string>
+    <string name="open_record_example_activity">Open record example</string>
+    <string name="record_start">Start</string>
+    <string name="record_stop">Stop</string>
+    <string name="record_play">Play</string>
+    <string name="record_started">record started</string>
+    <string name="record_ended">record ended</string>
 
 </resources>
