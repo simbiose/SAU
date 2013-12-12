@@ -29,6 +29,13 @@ public interface VoiceRecorderDelegate {
 	public void onRecorderStarted();
 
 	/**
+	 * called when record stoped
+	 * 
+	 * @since {@link API#Version_3_1_0}
+	 */
+	public void onRecorderStoped();
+
+	/**
 	 * called when record ends
 	 * 
 	 * @since {@link API#Version_3_1_0}

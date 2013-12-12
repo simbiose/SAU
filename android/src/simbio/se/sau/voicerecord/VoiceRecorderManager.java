@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayDeque;
 
 import simbio.se.sau.API;
-import simbio.se.sau.log.SimbiLog;
 import android.annotation.TargetApi;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -38,13 +37,14 @@ public class VoiceRecorderManager implements Runnable {
 	private boolean sholdRecord = false;
 	private DataOutputStream dataOutputStream = null;
 	private ArrayDeque<Short> arrayDeque = new ArrayDeque<Short>();
+	private ArrayDeque<Short> arrayDequeNeedAproval = new ArrayDeque<Short>();
+	private boolean speakStarted = false;
 	private Thread mainThread;
 	private Thread recordFileThread;
 	private Runnable recordFileRunnable = new Runnable() {
 		@Override
 		public void run() {
 			while (true) {
-				SimbiLog.here();
 				while (!arrayDeque.isEmpty())
 					try {
 						dataOutputStream.writeShort(arrayDeque.pop());
@@ -82,7 +82,9 @@ public class VoiceRecorderManager implements Runnable {
 	 */
 	public void start() {
 		stopRequired = false;
+		speakStarted = false;
 		arrayDeque.clear();
+		arrayDequeNeedAproval.clear();
 		mainThread = new Thread(this);
 		mainThread.start();
 		recordFileThread = new Thread(recordFileRunnable);
@@ -126,12 +128,14 @@ public class VoiceRecorderManager implements Runnable {
 			audioRecord = new AudioRecord(AudioSource.MIC, 11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, readSize * 10);
 			audioRecord.startRecording();
 			while (!stopRequired) {
+				if (!speakStarted)
+					arrayDequeNeedAproval.clear();
 				short[] buffer = buffers[ix++ % buffers.length];
 				readSize = audioRecord.read(buffer, 0, buffer.length);
 				volume = 0.0f;
 				for (short bufferIten : buffer) {
 					if (sholdRecord)
-						arrayDeque.add(bufferIten);
+						arrayDequeNeedAproval.add(bufferIten);
 					volume += bufferIten * bufferIten;
 				}
 				volume = (float) Math.sqrt(volume / readSize) / 2000.0f;
@@ -141,14 +145,25 @@ public class VoiceRecorderManager implements Runnable {
 							voiceRecorderView.processSoundVolume(volume);
 				if (volume < minimunVolume)
 					minimunVolumeSequenceCount++;
-				else
+				else {
 					minimunVolumeSequenceCount = 0;
+					speakStarted = true;
+					arrayDeque.addAll(arrayDequeNeedAproval);
+					arrayDequeNeedAproval.clear();
+				}
 				if (minimunVolumeSequenceCount > minimunVolumeSequenceLimite)
 					stopRecordIfNeed();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			if (delegate != null)
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						delegate.onRecorderStoped();
+					}
+				});
 			if (voiceRecorderViews != null)
 				for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
 					if (voiceRecorderView != null)

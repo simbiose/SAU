@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,11 +33,13 @@ import android.view.View;
  * @author Ademar Alves de Oliveira (ademar111190@gmail.com)
  * @date Dec 11, 2013 12:36:18 AM
  */
-public class RecordActivity extends Activity implements VoiceRecorderDelegate {
+public class RecordActivity extends Activity implements VoiceRecorderDelegate, OnCompletionListener {
 
 	private CircleVoiceRecorderView[] circleVoiceRecorderViews;
 	private VoiceRecorderManager voiceRecorderManager;
 	private String filePath;
+	private MediaPlayer mediaPlayerBeepStart;
+	private MediaPlayer mediaPlayerBeepEnd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +55,16 @@ public class RecordActivity extends Activity implements VoiceRecorderDelegate {
 		if (!file.exists())
 			file.mkdirs();
 		filePath = folderPath + "/recorded.pcm";
+
+		mediaPlayerBeepStart = MediaPlayer.create(getApplicationContext(), R.raw.beep);
+		mediaPlayerBeepEnd = MediaPlayer.create(getApplicationContext(), R.raw.beep);
+
+		mediaPlayerBeepStart.setOnCompletionListener(this);
 	}
 
 	public void record(View view) {
-		voiceRecorderManager = new VoiceRecorderManager(filePath, this);
-		voiceRecorderManager.start();
+		if (!mediaPlayerBeepStart.isPlaying())
+			mediaPlayerBeepStart.start();
 	}
 
 	public void stopRec(View view) {
@@ -102,8 +111,20 @@ public class RecordActivity extends Activity implements VoiceRecorderDelegate {
 	}
 
 	@Override
+	public void onRecorderStoped() {
+		if (!mediaPlayerBeepEnd.isPlaying())
+			mediaPlayerBeepEnd.start();
+	}
+
+	@Override
 	public void onRecorderEnded() {
 		ToastMaker.toast(getApplicationContext(), R.string.record_ended);
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		voiceRecorderManager = new VoiceRecorderManager(filePath, this);
+		voiceRecorderManager.start();
 	}
 
 }
