@@ -1,5 +1,9 @@
 ##Changelog
 
+### Verion 3.1.0
+ - Added a Voice record
+ - Added a example of Voice Record View
+
 ### Version 3.0.0
  - Move the Changelog to a diferent file
  - Create a todo file

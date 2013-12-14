@@ -29,4 +29,25 @@ public interface VoiceRecorderView {
 	 */
 	public void processEnded();
 
+	/**
+	 * Called when the record has started
+	 * 
+	 * @since {@link API#Version_3_1_0}
+	 */
+	public void processStarted();
+
+	/**
+	 * Called when the record has received the first song
+	 * 
+	 * @since {@link API#Version_3_1_0}
+	 */
+	public void processHasTheFirstSong();
+
+	/**
+	 * Called when the record has received the last song
+	 * 
+	 * @since {@link API#Version_3_1_0}
+	 */
+	public void processHasTheLastSong();
+
 }

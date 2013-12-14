@@ -32,6 +32,8 @@ public class CircleVoiceRecorderView extends View implements VoiceRecorderView, 
 	protected float minSize = 0.75f;
 	protected float maxSize = 1.25f;
 	protected long animationDuration = 50l;
+	protected int paintColor = Color.BLACK;
+	protected int paintColorOff = Color.BLACK;
 
 	protected Runnable animateRunnable = new Runnable() {
 		@Override
@@ -75,7 +77,8 @@ public class CircleVoiceRecorderView extends View implements VoiceRecorderView, 
 
 	private void init(AttributeSet attrs) {
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CircleVoiceRecorderView);
-		paint.setColor(typedArray.getColor(R.styleable.CircleVoiceRecorderView_color, Color.BLACK));
+		setColor(typedArray.getColor(R.styleable.CircleVoiceRecorderView_color, Color.BLACK));
+		setColorOff(typedArray.getColor(R.styleable.CircleVoiceRecorderView_colorOff, Color.BLACK));
 		setMinSize(typedArray.getFloat(R.styleable.CircleVoiceRecorderView_minSize, minSize));
 		setMaxSize(typedArray.getFloat(R.styleable.CircleVoiceRecorderView_maxSize, maxSize));
 		setAnimationDuration((long) typedArray.getInt(R.styleable.CircleVoiceRecorderView_animationDuration, (int) animationDuration));
@@ -88,6 +91,17 @@ public class CircleVoiceRecorderView extends View implements VoiceRecorderView, 
 	 * @since {@link API#Version_3_1_0}
 	 */
 	public void setColor(int color) {
+		paintColor = color;
+		paint.setColor(color);
+	}
+
+	/**
+	 * @param color
+	 *            the color to be used on {@link Paint} when it off
+	 * @since {@link API#Version_3_1_0}
+	 */
+	public void setColorOff(int color) {
+		paintColorOff = color;
 		paint.setColor(color);
 	}
 
@@ -153,7 +167,33 @@ public class CircleVoiceRecorderView extends View implements VoiceRecorderView, 
 	 */
 	@Override
 	public void processEnded() {
+	}
+
+	@Override
+	public void processStarted() {
+	}
+
+	@Override
+	public void processHasTheFirstSong() {
+		paint.setColor(paintColor);
+		post(new Runnable() {
+			@Override
+			public void run() {
+				invalidate();
+			}
+		});
+	}
+
+	@Override
+	public void processHasTheLastSong() {
 		post(endAnimateRunnable);
+		paint.setColor(paintColorOff);
+		post(new Runnable() {
+			@Override
+			public void run() {
+				invalidate();
+			}
+		});
 	}
 
 	/*
@@ -194,5 +234,4 @@ public class CircleVoiceRecorderView extends View implements VoiceRecorderView, 
 	public void onAnimationStart(Animator animation) {
 		animationRunning = true;
 	}
-
 }

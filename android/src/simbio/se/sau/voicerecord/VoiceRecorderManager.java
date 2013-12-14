@@ -105,6 +105,11 @@ public class VoiceRecorderManager implements Runnable {
 					delegate.onRecorderStarted();
 				}
 			});
+		VoiceRecorderView[] voiceRecorderViews = (delegate == null ? null : delegate.getVoiceRecorderViews());
+		if (voiceRecorderViews != null)
+			for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
+				if (voiceRecorderView != null)
+					voiceRecorderView.processStarted();
 		android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
 		AudioRecord audioRecord = null;
 		if (filePathToSave != null) {
@@ -118,7 +123,6 @@ public class VoiceRecorderManager implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		VoiceRecorderView[] voiceRecorderViews = (delegate == null ? null : delegate.getVoiceRecorderViews());
 		short[][] buffers = new short[256][160];
 		int ix = 0;
 		float volume;
@@ -139,7 +143,7 @@ public class VoiceRecorderManager implements Runnable {
 					volume += bufferIten * bufferIten;
 				}
 				volume = (float) Math.sqrt(volume / readSize) / 2000.0f;
-				if (voiceRecorderViews != null && readSize > 0)
+				if (speakStarted && voiceRecorderViews != null && readSize > 0)
 					for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
 						if (voiceRecorderView != null)
 							voiceRecorderView.processSoundVolume(volume);
@@ -147,9 +151,13 @@ public class VoiceRecorderManager implements Runnable {
 					minimunVolumeSequenceCount++;
 				else {
 					minimunVolumeSequenceCount = 0;
-					speakStarted = true;
 					arrayDeque.addAll(arrayDequeNeedAproval);
 					arrayDequeNeedAproval.clear();
+					if (!speakStarted && voiceRecorderViews != null)
+						for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
+							if (voiceRecorderView != null)
+								voiceRecorderView.processHasTheFirstSong();
+					speakStarted = true;
 				}
 				if (minimunVolumeSequenceCount > minimunVolumeSequenceLimite)
 					stopRecordIfNeed();
@@ -167,7 +175,7 @@ public class VoiceRecorderManager implements Runnable {
 			if (voiceRecorderViews != null)
 				for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
 					if (voiceRecorderView != null)
-						voiceRecorderView.processEnded();
+						voiceRecorderView.processHasTheLastSong();
 			if (audioRecord != null && audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
 				audioRecord.stop();
 				audioRecord.release();
@@ -183,6 +191,11 @@ public class VoiceRecorderManager implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			// TODO compress audio
+			if (voiceRecorderViews != null)
+				for (VoiceRecorderView voiceRecorderView : voiceRecorderViews)
+					if (voiceRecorderView != null)
+						voiceRecorderView.processEnded();
 			if (delegate != null)
 				handler.post(new Runnable() {
 					@Override

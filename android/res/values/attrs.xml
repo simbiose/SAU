@@ -3,6 +3,7 @@
 
     <declare-styleable name="CircleVoiceRecorderView">
         <attr name="color" format="color" />
+        <attr name="colorOff" format="color" />
         <attr name="minSize" format="float" />
         <attr name="maxSize" format="float" />
         <attr name="animationDuration" format="integer" />
