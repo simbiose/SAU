@@ -42,4 +42,13 @@ public interface VoiceRecorderDelegate {
 	 */
 	public void onRecorderEnded();
 
+	/**
+	 * called when record ends
+	 * 
+	 * @param exception
+	 *            the {@link Exception} occurs
+	 * @since {@link API#Version_3_1_1}
+	 */
+	public void onRecorderEndedWithFail(Exception exception);
+
 }

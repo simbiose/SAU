@@ -5,6 +5,7 @@ package simbio.se.sau.voicerecord;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayDeque;
 
@@ -200,7 +201,10 @@ public class VoiceRecorderManager implements Runnable {
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						delegate.onRecorderEnded();
+						if (speakStarted)
+							delegate.onRecorderEnded();
+						else
+							delegate.onRecorderEndedWithFail(new FileNotFoundException("Nothing speaked"));
 					}
 				});
 			mainThread = null;

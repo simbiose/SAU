@@ -127,4 +127,9 @@ public class RecordActivity extends Activity implements VoiceRecorderDelegate, O
 		voiceRecorderManager.start();
 	}
 
+	@Override
+	public void onRecorderEndedWithFail(Exception exception) {
+		ToastMaker.toast(getApplicationContext(), exception);
+	}
+
 }
