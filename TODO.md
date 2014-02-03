@@ -1,7 +1,7 @@
 ##TODO list
 
 ### Version 3.1.0
- - Voice Record
+ - *Voice Record*
 
 ### Version 3.0.0
  - *Move changelog to a separated file*

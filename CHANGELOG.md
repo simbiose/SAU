@@ -1,5 +1,9 @@
 ##Changelog
 
+### Version 3.1.2
+ - Added the Remote Image View
+ - Added a example of Remote Image View
+
 ### Verion 3.1.0
  - Added a Voice record
  - Added a example of Voice Record View

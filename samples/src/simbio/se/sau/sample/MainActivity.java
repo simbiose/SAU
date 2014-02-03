@@ -9,6 +9,7 @@ import simbio.se.sau.share.SimbiShare;
 import simbio.se.sau.view.ClipboardTextView;
 import simbio.se.sau.view.ClipboardTextView.CopiedInterface;
 import simbio.se.sau.view.RangeSeekBar;
+import simbio.se.sau.view.RemoteImageView;
 import simbio.se.sau.view.animation.ResizeAnimation;
 import simbio.se.sau.view.interfaces.IRangeSeekBar;
 import simbio.se.sau.widget.ToastMaker;
@@ -37,6 +38,8 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 
 	private static final int resizeChange = 200;
 	private static final int resizeDuration = 300;
+
+	private RemoteImageView remoteImageView;
 
 	// Activity methods with override implementation
 
@@ -68,6 +71,23 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 		rangeSeekBar.setLineColor(Color.rgb(0, 153, 0));
 
 		((ClipboardTextView) findViewById(R.id.clipboard_text_view)).setCopyListener(this);
+
+		// Remote image view example, using java you can use just xml, the other 2 images are in xml, one get a real image and the other force the fail
+		remoteImageView = (RemoteImageView) findViewById(R.id.remote_imageview_in_java_code);
+		// I want reload ever time when the image is clicked.
+		View.OnClickListener remoteImageViewClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				remoteImageView.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/200px-Android_robot.svg.png");
+				remoteImageView.setErrorImage(R.drawable.remote_image_fail);
+				remoteImageView.setDefaultImage(R.drawable.remote_image_default);
+				remoteImageView.deleteCachedImage();
+				remoteImageView.start();
+			}
+		};
+		remoteImageView.setOnClickListener(remoteImageViewClickListener);
+		// this line just force the first request when app opens
+		remoteImageViewClickListener.onClick(remoteImageView);
 	}
 
 	@Override

@@ -33,5 +33,6 @@
     <string name="record_play">Play</string>
     <string name="record_started">record started</string>
     <string name="record_ended">record ended</string>
+    <string name="remote_image_examples">Remote Image Examples</string>
 
 </resources>

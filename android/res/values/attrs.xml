@@ -8,5 +8,10 @@
         <attr name="maxSize" format="float" />
         <attr name="animationDuration" format="integer" />
     </declare-styleable>
+    <declare-styleable name="RemoteImageView">
+        <attr name="imageUrl" format="string" />
+        <attr name="defaultImage" format="reference" />
+        <attr name="errorImage" format="reference" />
+    </declare-styleable>
 
 </resources>
