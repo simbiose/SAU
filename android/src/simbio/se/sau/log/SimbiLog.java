@@ -1,7 +1,6 @@
 package simbio.se.sau.log;
 
 import simbio.se.sau.API;
-import simbio.se.sau.json.JsonUtils;
 import android.util.Log;
 
 /**
@@ -33,14 +32,28 @@ public class SimbiLog {
 	}
 
 	/**
-	 * A flexible log, here you can send a variable number of parameters and get a log formated with Json style. if you want a stack trace see {@link SimbiLog#log(Object, Object...)} method.
-	 * 
 	 * @param params
-	 *            to log
-	 * @since {@link API#Version_1_0_0}
+	 *            a list with any {@link Object}
+	 * @return a {@link String} to be logged
+	 * @since {@link API#Version_3_1_3}
 	 */
-	public static void print(Object... params) {
-		Log.d(LOG_TOKEN, JsonUtils.toJson(params));
+	public static String makeStringToLog(Object[] params) {
+		StringBuilder stringBuilder = new StringBuilder("{");
+		if (params == null)
+			stringBuilder.append("\"params\":null}");
+		else {
+			int count = 0;
+			for (Object object : params) {
+				stringBuilder.append(String.format("\"param_%d\":", ++count));
+				if (object == null)
+					stringBuilder.append("null,");
+				else
+					stringBuilder.append(String.format("\"%s\",", (object + "").replace("\"", "\\\"")));
+			}
+			stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+			stringBuilder.append("}");
+		}
+		return stringBuilder.toString();
 	}
 
 	/**
@@ -48,17 +61,10 @@ public class SimbiLog {
 	 * 
 	 * @param params
 	 *            to log
-	 * @since {@link API#Version_3_0_0}
+	 * @since {@link API#Version_1_0_0}
 	 */
-	public static void printText(Object... params) {
-		StringBuilder stringBuilder = new StringBuilder();
-		if (params == null)
-			stringBuilder.append("Null .:. ");
-		else
-			for (Object object : params)
-				stringBuilder.append((object == null ? "Null" : object.toString())).append(" .:. ");
-		stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length());
-		Log.d(LOG_TOKEN, stringBuilder.toString());
+	public static void print(Object... params) {
+		Log.d(LOG_TOKEN, makeStringToLog(params));
 	}
 
 	/**
@@ -71,9 +77,7 @@ public class SimbiLog {
 	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void log(Object instance, Object... params) {
-		Log.d(LOG_TOKEN_STACK_TRACE,
-				String.format("{\"instance\":\"%s\",\"instanceClass\":\"%s\",\"params\":%s,\"stack\":%s}", instance, (instance == null ? "Null Instance" : instance.getClass()), JsonUtils.toJson(params),
-						JsonUtils.toJson(Thread.currentThread().getStackTrace())));
+		Log.v(LOG_TOKEN_STACK_TRACE, String.format("{\"instance\":\"%s\", \"params\":%s, \"stackTrace\":%s}", instance, makeStringToLog(params), makeStringToLog(Thread.currentThread().getStackTrace())));
 	}
 
 	/**
@@ -84,7 +88,10 @@ public class SimbiLog {
 	 * @since {@link API#Version_1_0_0}
 	 */
 	public static void printException(Exception e) {
-		Log.e(LOG_TOKEN, JsonUtils.toJson(new Object[] { e.toString(), e.getCause(), e.getMessage(), e.getLocalizedMessage(), e.getStackTrace() }));
+		if (e == null)
+			Log.e(LOG_TOKEN, "null Exception");
+		else
+			Log.e(LOG_TOKEN, String.format("{\"string\":\"%s\", \"cause\":\"%s\", \"message\":\"%s\", \"localizedMessage\":\"%s\", \"stackTrace\":\"%s\"}", e.toString(), e.getCause(), e.getMessage(), e.getLocalizedMessage(), e.getStackTrace()));
 	}
 
 }

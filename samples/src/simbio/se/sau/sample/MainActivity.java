@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SimbiLog.log(this);
+		SimbiLog.log(this, menu);
 
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -100,7 +100,7 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		SimbiLog.log(this);
+		SimbiLog.log(this, item);
 
 		switch (item.getItemId()) {
 		case R.id.action_share:
@@ -115,18 +115,22 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	// onclicks
 
 	public void openSqlActivity(View view) {
+		SimbiLog.log(this, view);
 		startActivity(new Intent(getApplicationContext(), SqlExampleActivity.class));
 	}
 
 	public void openRecActivity(View view) {
+		SimbiLog.log(this, view);
 		startActivity(new Intent(getApplicationContext(), RecordActivity.class));
 	}
 
 	public void openDocActivity(View view) {
+		SimbiLog.log(this, view);
 		startActivity(new Intent(getApplicationContext(), ActivityDocumentUtils.class));
 	}
 
 	public void showToaster(View view) {
+		SimbiLog.log(this, view);
 		int random = (int) (Math.random() * 5.0);
 		switch (random) {
 		case 0:
@@ -148,10 +152,12 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	}
 
 	public void showUserEmail(View view) {
+		SimbiLog.log(this, view);
 		ToastMaker.toast(getApplicationContext(), new DeviceInformationsManager(getApplicationContext()).getPrimaryUserEmailOrNull());
 	}
 
 	public void resize(View view) {
+		SimbiLog.log(this, view);
 		ResizeAnimation resizeAnimation;
 		if (hasResized)
 			resizeAnimation = new ResizeAnimation(view, view.getHeight() - resizeChange, view.getWidth() + resizeChange);
@@ -164,6 +170,7 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	}
 
 	public void resizeHeight(View view) {
+		SimbiLog.log(this, view);
 		ResizeAnimation resizeAnimation;
 		if (hasHeightResized)
 			resizeAnimation = new ResizeAnimation(view, view.getHeight() - resizeChange, true);
@@ -176,6 +183,7 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	}
 
 	public void resizeWidth(View view) {
+		SimbiLog.log(this, view);
 		ResizeAnimation resizeAnimation;
 		if (hasWidthResized)
 			resizeAnimation = new ResizeAnimation(view, view.getWidth() + resizeChange, false);
@@ -191,17 +199,17 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 
 	@Override
 	public void onAnimationEnd(Animation animation) {
-		SimbiLog.log(this);
+		SimbiLog.log(this, animation);
 	}
 
 	@Override
 	public void onAnimationRepeat(Animation animation) {
-		SimbiLog.log(this);
+		SimbiLog.log(this, animation);
 	}
 
 	@Override
 	public void onAnimationStart(Animation animation) {
-		SimbiLog.log(this);
+		SimbiLog.log(this, animation);
 	}
 
 	/*
@@ -221,7 +229,7 @@ public class MainActivity extends Activity implements AnimationListener, IRangeS
 	 */
 	@Override
 	public void onClick(View v) {
-		SimbiLog.printText("clicked", v);
+		SimbiLog.print("clicked", v);
 	}
 
 	/*

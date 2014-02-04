@@ -11,7 +11,6 @@ import java.net.URLEncoder;
 
 import simbio.se.sau.API;
 import simbio.se.sau.R;
-import simbio.se.sau.log.SimbiLog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -41,7 +40,6 @@ public class RemoteImageView extends ImageView {
 				getImageHandler.post(new Runnable() {
 					@Override
 					public void run() {
-						SimbiLog.printText("run A");
 						setImageResource(errorImage);
 					}
 				});
@@ -60,7 +58,6 @@ public class RemoteImageView extends ImageView {
 					getImageHandler.post(new Runnable() {
 						@Override
 						public void run() {
-							SimbiLog.printText("run b");
 							setImageBitmap(bitmap1);
 						}
 					});
@@ -76,7 +73,6 @@ public class RemoteImageView extends ImageView {
 				getImageHandler.post(new Runnable() {
 					@Override
 					public void run() {
-						SimbiLog.printText("run C");
 						setImageResource(errorImage);
 					}
 				});
