@@ -166,6 +166,92 @@ You also can see the documentation on /doc/index.html
 	remoteImageView.deleteCachedImage(); //Maybe you wants delete the cached image
 	remoteImageView.start(); //Starts download proccess
 
+###Share
+
+    SimbiShare.shareWithChooser(this, R.string.hello_world, R.string.app_name, R.string.action_share); //an easy way to share with android native choose method
+    SimbiShare.shareWithChooser(this, "content", "subject", "title"); //you can use Strings too
+
+###Toast maker
+
+    ToastMaker.toast(getApplicationContext(), "Some Text"); //show toasts easily
+    ToastMaker.toast(getApplicationContext(), R.string.hello_world); //use strings xml resources too
+    ToastMaker.toast(getApplicationContext()); // Toast just a "here"
+
+###Resize Animation
+
+    ResizeAnimation resizeAnimation = new ResizeAnimation(view, toHeight, toWidth); //Resive the view to new height and width
+    resizeAnimation.setDuration(resizeDuration); //set the duration of animation
+	resizeAnimation.setAnimationListener(this); //set the listener if you want
+	view.startAnimation(resizeAnimation); //start it
+
+###SQLite
+####powered by [Shiva][2]
+
+    //To use SQLite easily extends our class DatabaseHelper like bellow
+    public class SqlManager extends DatabaseHelper {
+	    public SqlManager(Context context, DatabaseDelegate delegate) {
+		    super(context, delegate, "yourDatabase.sqlite", 1);
+	    }
+	    @Override
+	    protected List<Class<?>> getModelsToBeCreatedOnDatabase() {
+	        //create this list to add the classes that you want save on database
+		    List<Class<?>> clazzez = new ArrayList<Class<?>>();
+		    //add any classes that you want
+		    clazzez.add(SqlFooModel.class);
+		    return clazzez;
+	    }
+	    @Override
+	    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	        //normal onUpgrade of android sqlite
+	    }
+    }
+    
+    //before we use, we need create a delegate. You can implements DatabaseDelegate interface on your own class too
+    DatabaseDelegate delegate = new DatabaseDelegate() {
+		@Override
+		public void onRequestSuccess(DatabaseHelper databaseHelper, int requestId, Object object) {
+		    //do anything that you want, the object is the return os a select for example
+		}
+		@Override
+		public void onRequestFail(DatabaseHelper databaseHelper, int requestId, Exception exception) {
+		    //if fails
+		}
+	};
+	
+	//now we can use our sqlite easily
+	new SqlManager(getApplicationContext(), this).insert(new SqlFooModel(), REQUEST_ADD); //insert
+	new SqlManager(getApplicationContext(), delegate).select(SqlFooModel.class, REQUEST_LOAD); //select
+    new SqlManager(getApplicationContext(), this).delete(object, REQUEST_DELETE); //delete
+    new SqlManager(getApplicationContext(), this).clearTable(REQUEST_DELETE_ALL, SqlFooModel.class); //clear table
+
+###Open Documents
+
+    new ActivityUtils(this).openDocumentWithCorrectActivity("/path/to/text.txt"); //open the txt file with correct intent
+    new ActivityUtils(this).openDocumentWithCorrectActivity("/path/to/doc.ods"); //works to any file format since the android device has the correctly app to open this file format
+    new ActivityUtils(this).openDocumentWithCorrectActivity("/path/to/music.ogg"); //just more one example
+
+###Array Adapter
+####to be used on list views or fragments adapters
+
+    //first extends the class AbstractAdapter and send the type of object used by your adapter
+    public class MyAdapter extends AbstractAdapter<FooModel> {
+        public interface MyAdapterDelegate extends IAbstractAdapter<FooModel> {
+	    }
+        public SqlListViewAdapter(Context context, MyAdapterDelegate delegate) {
+		    super(context, delegate, R.layout.your_xml_layout);
+	    }
+    }
+    
+    //it's all but probably you want edit your views so you can override getView method like:
+    @Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View rootView = super.getView(position, convertView, parent);
+		// do anything with your rootView, to get views inside use rootView.findViewById(id);
+    	return rootView;
+	}
+
 ####SAU have a lot of more things, see the example :D
 
+
   [1]: https://drive.google.com/file/d/0B7cXxk8Xej2tUFE0REl0S3BfX1k/edit?usp=sharing
+  [2]: https://github.com/simbiose/Shiva
