@@ -190,6 +190,7 @@ public class TestSauLibrary extends AndroidTestCase {
 		SimbiLog.print(arrayListPreferencesValueValidateWithoutDef);
 		SimbiLog.print();
 		SimbiLog.here();
+		SimbiLog.printText("Text Print", 7, null, ":F", foo1, "ultimo");
 		SimbiLog.print(param1, foo1, foo2, 6, 7.9f, "Text", "Text with \"");
 
 		// test Null Or Empty

@@ -57,7 +57,7 @@ public class SimbiLog {
 	}
 
 	/**
-	 * Log a plain text, no json formatted
+	 * Log objects as json format
 	 * 
 	 * @param params
 	 *            to log
@@ -65,6 +65,25 @@ public class SimbiLog {
 	 */
 	public static void print(Object... params) {
 		Log.d(LOG_TOKEN, makeStringToLog(params));
+	}
+
+	/**
+	 * Log a plain text, no json formatted
+	 * 
+	 * @param params
+	 *            to log
+	 * @since {@link API#Version_3_1_4}
+	 */
+	public static void printText(Object... params) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if (params == null)
+			stringBuilder.append("null .:. ");
+		else {
+			for (Object object : params)
+				stringBuilder.append(object + " .:. ");
+			stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length());
+		}
+		Log.d(LOG_TOKEN, stringBuilder.toString());
 	}
 
 	/**

@@ -31,6 +31,7 @@ public class RemoteImageView extends ImageView {
 	protected int defaultImage;
 	protected int errorImage;
 	protected String imageUrl;
+	protected boolean imageExistsOnCache = false;
 
 	protected Runnable getImageRunnable = new Runnable() {
 		@Override
@@ -132,8 +133,17 @@ public class RemoteImageView extends ImageView {
 	 * @since {@link API#Version_3_1_2}
 	 */
 	public void start() {
+		if (imageExistsOnCache) {
+			try {
+				Bitmap bitmap = BitmapFactory.decodeFile(new File(getContext().getFilesDir(), getFileNameByUrl(imageUrl)).getPath());
+				setImageBitmap(bitmap);
+			} catch (Exception exception) {
+				setImageResource(defaultImage);
+			}
+		} else {
+			setImageResource(defaultImage);
+		}
 		getImageHandler = new Handler();
-		setImageResource(defaultImage);
 		new Thread(getImageRunnable).start();
 	}
 
@@ -146,6 +156,12 @@ public class RemoteImageView extends ImageView {
 	 */
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+		if (imageUrl != null) {
+			String fileName = getFileNameByUrl(imageUrl);
+			imageExistsOnCache = new File(getContext().getFilesDir(), fileName).exists();
+		} else {
+			imageExistsOnCache = false;
+		}
 	}
 
 	/**
@@ -172,6 +188,7 @@ public class RemoteImageView extends ImageView {
 	 * @since {@link API#Version_3_1_2}
 	 */
 	public void deleteCachedImage() {
+		this.imageExistsOnCache = false;
 		String fileName = getFileNameByUrl(imageUrl);
 		if (fileName != null)
 			new File(getContext().getFilesDir(), fileName).delete();

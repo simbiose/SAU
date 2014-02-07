@@ -12,6 +12,6 @@ package simbio.se.sau;
  */
 public enum API {
 
-	Version_1_0_0, Version_2_0_0, Version_3_0_0, Version_3_1_0, Version_3_1_1, Version_3_1_2, Version_3_1_3;
+	Version_1_0_0, Version_2_0_0, Version_3_0_0, Version_3_1_0, Version_3_1_1, Version_3_1_2, Version_3_1_3, Version_3_1_4;
 
 }
