@@ -119,8 +119,9 @@ You also can see the documentation on /doc/index.html
 	rangeSeekBar.setNormalizedMaxValue(0.7f); //default max value
 	rangeSeekBar.setNotifyWhileDragging(true); //call listener when drawing
 	rangeSeekBar.setLineColor(Color.rgb(0, 153, 0)); //line color
-    //it will show something like that:
-    ![Range Seek Bar][1]
+
+####it will show something like that:
+![Range Seek Bar][1]
 
 ###Clipboard Text View
 ####A TextView that when is clicked copy your text to clipboard
@@ -253,5 +254,5 @@ You also can see the documentation on /doc/index.html
 ####SAU have a lot of more things, see the example :D
 
 
-  [1]: https://raw.github.com/simbiose/SAU/master/images/rangeSeekBar.png
+  [1]: https://raw2.github.com/simbiose/SAU/master/images/rangeSeekBar.png
   [2]: https://github.com/simbiose/Shiva
