@@ -251,8 +251,41 @@ You also can see the documentation on /doc/index.html
     	return rootView;
 	}
 
-####SAU have a lot of more things, see the example :D
+###Copy files from assest to an usable folder
+
+    ActivityUtils activityUtils = new ActivityUtils(this);
+    // we need files on sdcard, so we go copy from assests to a folder called sauSample on sdcard
+    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sauSample/";
+    try {
+        activityUtils.copyAssetsFilesToFolder(path);
+    } catch (Exception e) {
+        ToastMaker.toast(getApplicationContext(), e);
+    }
+
+###Get primary user email
+
+    //you need the follow permission:
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    
+    //and you need the follow code
+    DeviceInformationsManager dim = new DeviceInformationsManager(context)
+    String email = dim.getPrimaryUserEmailOrNull()
+
+###Null or Empty validation
+
+    NullOrEmpty.verify(""); //returns true
+    NullOrEmpty.verify("not empty"); //returns false
+    NullOrEmpty.verify(null); //returns true
+    ArrayList<Object> list = null;
+    NullOrEmpty.verify(list); //returns true
+    list = new ArrayList<Object>();
+    NullOrEmpty.verify(list); //returns true
+    list.add(new Foo());
+    NullOrEmpty.verify(list); //returns false
+
+####SAU have a lot of more things, see the examples :D
 
 
   [1]: https://raw2.github.com/simbiose/SAU/master/images/rangeSeekBar.png
   [2]: https://github.com/simbiose/Shiva
+
