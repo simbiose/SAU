@@ -253,5 +253,5 @@ You also can see the documentation on /doc/index.html
 ####SAU have a lot of more things, see the example :D
 
 
-  [1]: https://drive.google.com/file/d/0B7cXxk8Xej2tUFE0REl0S3BfX1k/edit?usp=sharing
+  [1]: https://raw.github.com/simbiose/SAU/master/images/rangeSeekBar.png
   [2]: https://github.com/simbiose/Shiva
