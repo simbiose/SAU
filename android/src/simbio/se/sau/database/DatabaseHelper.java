@@ -150,7 +150,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 		else {
 			ArrayList<Object> objects = new ArrayList<Object>();
 			objects.add(object);
-			insert(objects, requestId);
+			insertAll(objects, requestId);
 		}
 	}
 
@@ -163,7 +163,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void insert(final ArrayList<Object> objects, final int requestId) {
+	public void insertAll(final ArrayList<?> objects, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -267,7 +267,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 		else {
 			ArrayList<Object> objects = new ArrayList<Object>();
 			objects.add(object);
-			update(objects, requestId);
+			updateAll(objects, requestId);
 		}
 	}
 
@@ -280,7 +280,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void update(final ArrayList<Object> objects, final int requestId) {
+	public void updateAll(final ArrayList<?> objects, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -325,7 +325,7 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
 	 * @since {@link API#Version_3_0_0}
 	 */
-	public void delete(final ArrayList<Object> objects, final int requestId) {
+	public void deleteAll(final ArrayList<?> objects, final int requestId) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
