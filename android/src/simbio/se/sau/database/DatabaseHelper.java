@@ -1,9 +1,11 @@
 package simbio.se.sau.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import simbio.se.sau.API;
+import simbio.se.sau.utilities.NullOrEmpty;
 import simbio.se.shiva.Shiva;
 import android.content.Context;
 import android.database.Cursor;
@@ -201,6 +203,43 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
 				ArrayList<Object> objects = new ArrayList<Object>();
 				SQLiteDatabase sqLiteDatabase = getReadableDatabase();
 				Cursor cursor = sqLiteDatabase.rawQuery(Shiva.toSelectQuery(clazz), null);
+				if (cursor.moveToFirst())
+					do {
+						objects.add(ShivaAndroidUtils.getObjectFromCursor(clazz, cursor));
+					} while (cursor.moveToNext());
+				sendRequestSuccess(requestId, objects);
+				cursor.close();
+			}
+		}).start();
+	}
+
+	/**
+	 * This method run a select query on database
+	 * 
+	 * @param clazz
+	 *            the {@link Class} to be selected, it means, the return will be a list of that objects. a <code>null</code> causes {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)} with {@link NullPointerException}
+	 * @param requestId
+	 *            the id of request to be handled on {@link DatabaseDelegate#onRequestSuccess(DatabaseHelper, int, Object)} or {@link DatabaseDelegate#onRequestFail(DatabaseHelper, int, Exception)}
+	 * @see SQLiteDatabase#query(String, String[], String, String[], String, String, String)
+	 * @since {@link API#Version_3_1_6}
+	 */
+	public void selectWithWhereClause(final Class<?> clazz, final int requestId, final HashMap<String, Object> whereArgs) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (clazz == null) {
+					sendRequestFail(requestId, new NullPointerException());
+					return;
+				}
+
+				if (NullOrEmpty.verify(whereArgs)) {
+					select(clazz, requestId);
+					return;
+				}
+
+				ArrayList<Object> objects = new ArrayList<Object>();
+				SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+				Cursor cursor = sqLiteDatabase.rawQuery(Shiva.toSelectQueryWithWhereClause(clazz, whereArgs), null);
 				if (cursor.moveToFirst())
 					do {
 						objects.add(ShivaAndroidUtils.getObjectFromCursor(clazz, cursor));
