@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="simbio.se.sau.test">
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="@string/empty"
+        android:targetPackage="simbio.se.sau.test" />
+
+    <application android:icon="@android:drawable/ic_secure" >
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+</manifest>
