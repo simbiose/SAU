@@ -1,5 +1,5 @@
 /**
- * Copyright 2013-2014
+ * Copyright 2014-2014
  * Ademar Alves de Oliveira <ademar111190@gmail.com /> Simbio.se
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,20 +17,11 @@
  */
 package simbio.se.sau.exceptions;
 
-import simbio.se.sau.API;
-
 /**
- * This class is an abstract Exception used by SAU library
+ * Created by Ademar Alves de Oliveira <ademar111190@gmail.com>
  *
- * @author Ademar Alves de Oliveira <ademar111190@gmail.com>
- * @date 2013-sep-29 23:50:07
- * @since {@link API#Version_2_0_0}
+ * @date 4/15/14.
+ * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
-public abstract class AbstractSauException extends Exception {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8774616460601125608L;
-
+public class SQLiteDatabaseNullException extends AbstractSauException {
 }
