@@ -36,6 +36,6 @@ public interface SauHttpDelegate {
      * @param content       the {@link String} with error message
      * @since {@link API#Version_3_1_3}
      */
-    public void onFail(SauHttpClient sauHttpClient, Throwable throwable, String content);
+    public void onRequestFail(SauHttpClient sauHttpClient, Throwable throwable, String content);
 
 }

@@ -27,6 +27,8 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 
 import simbio.se.sau.API;
+import simbio.se.sau.network.cache.CacheManager;
+import simbio.se.sau.network.transformer.AbstractTransformer;
 
 /**
  * Extends it to access the network in asyn mode. More details see {@link AsyncHttpClient} and
@@ -36,21 +38,83 @@ import simbio.se.sau.API;
  * @date Nov 29, 2013 1:06:16 PM
  * @since {@link API#Version_3_0_0}
  */
-public abstract class SauHttpClient extends AsyncHttpResponseHandler {
+public abstract class SauHttpClient<Delegate extends SauHttpDelegate> {
 
-    protected static AsyncHttpClient asyncHttpClient;
-    protected SauHttpDelegate delegate;
+    private static AsyncHttpClient sharedAsyncHttpClient;
+
+    private boolean usesSharedCliente;
+    private AsyncHttpClient asyncHttpClient;
+    private Delegate delegate;
+    protected CacheManager cacheManager;
+
+    //----------------------------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------------------------
 
     /**
+     * @param context  the {@link Context} to create the cache manager
+     * @param delegate A {@link SauHttpDelegate} to handle the returns
      * @since {@link API#Version_3_0_0}
      */
-    public SauHttpClient(SauHttpDelegate delegate) {
-        if (asyncHttpClient == null) {
+    public SauHttpClient(Context context, Delegate delegate) {
+        this(context, delegate, true);
+    }
+
+    /**
+     * @param context                 the {@link Context} to create the cache manager
+     * @param delegate                A {@link SauHttpDelegate} to handle the returns
+     * @param shouldUsesSharedCliente <code>true</code> if you want uses the shared
+     *                                {@link AsyncHttpClient} <code>false</code> if you want use
+     *                                your customized {@link AsyncHttpClient}
+     * @since {@link API#Version_4_0_0}
+     */
+    public SauHttpClient(Context context, Delegate delegate, boolean shouldUsesSharedCliente) {
+        if (sharedAsyncHttpClient == null)
+            sharedAsyncHttpClient = new AsyncHttpClient();
+
+        this.usesSharedCliente = shouldUsesSharedCliente;
+        this.delegate = delegate;
+        this.cacheManager = new CacheManager(context);
+
+        if (shouldUsesSharedCliente()) {
             asyncHttpClient = new AsyncHttpClient();
             asyncHttpClient.setTimeout(getTimeout());
         }
-        this.delegate = delegate;
     }
+
+    //----------------------------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------------------------
+
+    @Override
+    public void onSuccess(String response) {
+        success(response);
+    }
+
+    @Override
+    public void onFailure(Throwable error, String content) {
+        getDelegate().onRequestFail(this, error, content);
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Abstracts
+    //----------------------------------------------------------------------------------------------
+
+    /**
+     * @param response the {@link String} returned from server
+     * @since {@link API#Version_3_1_3}
+     */
+    protected abstract void success(String response);
+
+    /**
+     * @param response the {@link String} returned from cache
+     * @since {@link API#Version_4_0_0}
+     */
+    protected abstract void caches(String response);
+
+    //----------------------------------------------------------------------------------------------
+    // Customs
+    //----------------------------------------------------------------------------------------------
 
     /**
      * @return the timeout
@@ -60,34 +124,46 @@ public abstract class SauHttpClient extends AsyncHttpResponseHandler {
         return 10000;
     }
 
-    @Override
-    public void onSuccess(String response) {
-        success(response);
+    /**
+     * @return <code>true</code> if should uses a custom {@link AsyncHttpClient}, returns <code>
+     * false</code> is should uses the shared {@link AsyncHttpClient}
+     * @since {@link API#Version_4_0_0}
+     */
+    public boolean shouldUsesSharedCliente() {
+        return usesSharedCliente;
     }
 
-    @Override
-    public void onFailure(Throwable error, String content) {
-        delegate.onFail(this, error, content);
+    /**
+     * @return the {@link AsyncHttpClient} to make requests
+     * @since {@link API#Version_4_0_0}
+     */
+    protected AsyncHttpClient getAsyncHttpClient() {
+        if (shouldUsesSharedCliente())
+            return sharedAsyncHttpClient;
+        else
+            return asyncHttpClient;
     }
 
     /**
-     * @return the URL to connection access
-     * @since {@link API#Version_3_1_3}
+     * @return the extended {@link SauHttpDelegate} class to handle requests
+     * @since {@link API#Version_4_0_0}
      */
-    public abstract String getUrl();
+    public Delegate getDelegate() {
+        return delegate;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // CRUD
+    //----------------------------------------------------------------------------------------------
 
     /**
-     * @param response the {@link String} returned from server
-     * @since {@link API#Version_3_1_3}
-     */
-    protected abstract void success(String response);
-
-    /**
+     * @param url           the Url to make the request
      * @param requestParams the {@link RequestParams}
+     * @param transformer   an {@link AbstractTransformer} to handle the results
      * @since {@link API#Version_3_1_3}
      */
-    public void get(RequestParams requestParams) {
-        asyncHttpClient.get(getUrl(), requestParams, this);
+    public void get(String url, RequestParams requestParams, AbstractTransformer transformer) {
+        asyncHttpClient.get(url, requestParams, transformer);
     }
 
     /**
@@ -97,7 +173,7 @@ public abstract class SauHttpClient extends AsyncHttpResponseHandler {
      */
     public void post(Context context, JSONObject jsonParams) {
         try {
-            asyncHttpClient.post(
+            getAsyncHttpClient().post(
                     context,
                     getUrl(),
                     new StringEntity(jsonParams.toString()),
