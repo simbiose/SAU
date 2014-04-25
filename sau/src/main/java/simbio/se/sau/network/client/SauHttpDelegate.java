@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package simbio.se.sau.network;
+package simbio.se.sau.network.client;
 
 import simbio.se.sau.API;
 
@@ -29,9 +29,23 @@ import simbio.se.sau.API;
 public interface SauHttpDelegate {
 
     /**
+     * @param sauHttpClient the {@link SauHttpClient} that has managed the request
+     * @param response      the {@link String} returned from server
+     * @since {@link API#Version_3_1_3}
+     */
+    public abstract void onRequestSuccess(SauHttpClient sauHttpClient, String response);
+
+    /**
+     * @param sauHttpClient the {@link SauHttpClient} that has managed the request
+     * @param response      the {@link String} returned from cache
+     * @since {@link API#Version_4_0_0}
+     */
+    public abstract void onRequestCached(SauHttpClient sauHttpClient, String response);
+
+    /**
      * Called when occors an error on conection
      *
-     * @param sauHttpClient the {@link SauHttpClient} that get the error
+     * @param sauHttpClient the {@link SauHttpClient} that has managed the request
      * @param throwable     the {@link Throwable} of error
      * @param content       the {@link String} with error message
      * @since {@link API#Version_3_1_3}

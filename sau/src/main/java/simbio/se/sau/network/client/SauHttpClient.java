@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package simbio.se.sau.network;
+package simbio.se.sau.network.client;
 
 import android.content.Context;
 
@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import simbio.se.sau.API;
 import simbio.se.sau.network.cache.CacheManager;
-import simbio.se.sau.network.transformer.AbstractTransformer;
 
 /**
  * Extends it to access the network in asyn mode. More details see {@link AsyncHttpClient} and
@@ -38,14 +37,19 @@ import simbio.se.sau.network.transformer.AbstractTransformer;
  * @date Nov 29, 2013 1:06:16 PM
  * @since {@link API#Version_3_0_0}
  */
-public abstract class SauHttpClient<Delegate extends SauHttpDelegate> {
+public class SauHttpClient<Delegate extends SauHttpDelegate>
+        extends AsyncHttpResponseHandler
+        implements Runnable {
 
     private static AsyncHttpClient sharedAsyncHttpClient;
+    protected static CacheManager cacheManager;
 
     private boolean usesSharedCliente;
     private AsyncHttpClient asyncHttpClient;
     private Delegate delegate;
-    protected CacheManager cacheManager;
+    protected String cachedKey;
+    protected Runnable postRunnable;
+    protected Thread thread;
 
     //----------------------------------------------------------------------------------------------
     // Constructors
@@ -71,10 +75,12 @@ public abstract class SauHttpClient<Delegate extends SauHttpDelegate> {
     public SauHttpClient(Context context, Delegate delegate, boolean shouldUsesSharedCliente) {
         if (sharedAsyncHttpClient == null)
             sharedAsyncHttpClient = new AsyncHttpClient();
+        if (cacheManager == null)
+            cacheManager = new CacheManager(context);
 
         this.usesSharedCliente = shouldUsesSharedCliente;
         this.delegate = delegate;
-        this.cacheManager = new CacheManager(context);
+        this.thread = new Thread(this);
 
         if (shouldUsesSharedCliente()) {
             asyncHttpClient = new AsyncHttpClient();
@@ -88,29 +94,13 @@ public abstract class SauHttpClient<Delegate extends SauHttpDelegate> {
 
     @Override
     public void onSuccess(String response) {
-        success(response);
+        getDelegate().onRequestSuccess(this, response);
     }
 
     @Override
     public void onFailure(Throwable error, String content) {
         getDelegate().onRequestFail(this, error, content);
     }
-
-    //----------------------------------------------------------------------------------------------
-    // Abstracts
-    //----------------------------------------------------------------------------------------------
-
-    /**
-     * @param response the {@link String} returned from server
-     * @since {@link API#Version_3_1_3}
-     */
-    protected abstract void success(String response);
-
-    /**
-     * @param response the {@link String} returned from cache
-     * @since {@link API#Version_4_0_0}
-     */
-    protected abstract void caches(String response);
 
     //----------------------------------------------------------------------------------------------
     // Customs
@@ -157,32 +147,64 @@ public abstract class SauHttpClient<Delegate extends SauHttpDelegate> {
     //----------------------------------------------------------------------------------------------
 
     /**
+     * Make a GET request
+     *
      * @param url           the Url to make the request
      * @param requestParams the {@link RequestParams}
-     * @param transformer   an {@link AbstractTransformer} to handle the results
      * @since {@link API#Version_3_1_3}
      */
-    public void get(String url, RequestParams requestParams, AbstractTransformer transformer) {
-        asyncHttpClient.get(url, requestParams, transformer);
+    public void get(final String url, final RequestParams requestParams) {
+        cachedKey = cacheManager.makeKey(url, requestParams);
+        postRunnable = new Runnable() {
+            @Override
+            public void run() {
+                asyncHttpClient.get(url, requestParams, SauHttpClient.this);
+            }
+        };
+        thread.start();
     }
 
     /**
+     * Make a POST request
+     *
+     * @param url        the Url to make the request
      * @param context    the {@link Context} to codify the json
      * @param jsonParams the {@link JSONObject} to be codified
      * @since {@link API#Version_3_1_3}
      */
-    public void post(Context context, JSONObject jsonParams) {
-        try {
-            getAsyncHttpClient().post(
-                    context,
-                    getUrl(),
-                    new StringEntity(jsonParams.toString()),
-                    "application/json",
-                    this
-            );
-        } catch (Exception e) {
-            onFailure(e.getCause(), "");
-        }
+    public void post(final String url, final Context context, final JSONObject jsonParams) {
+        cachedKey = cacheManager.makeKey(url, jsonParams);
+        postRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    getAsyncHttpClient().post(
+                            context,
+                            url,
+                            new StringEntity(jsonParams.toString()),
+                            "application/json",
+                            SauHttpClient.this
+                    );
+                } catch (Exception e) {
+                    onFailure(e.getCause(), "");
+                }
+            }
+        };
+        thread.start();
     }
 
+    //----------------------------------------------------------------------------------------------
+    // Runnable
+    //----------------------------------------------------------------------------------------------
+
+    @Override
+    public void run() {
+        if (cachedKey != null) {
+            String cached = cacheManager.getStringOrNull(cachedKey);
+            if (cached != null)
+                getDelegate().onRequestCached(this, cached);
+        }
+        if (postRunnable != null)
+            postRunnable.run();
+    }
 }
