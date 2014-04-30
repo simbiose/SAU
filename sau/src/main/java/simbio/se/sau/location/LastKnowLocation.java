@@ -27,6 +27,9 @@ import android.os.Handler;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simbio.se.sau.exceptions.location.LocationProviderDisabled;
+import simbio.se.sau.exceptions.location.NullLocationManager;
+
 /**
  * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
  */
@@ -50,6 +53,7 @@ public class LastKnowLocation extends TimerTask {
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
+            listener.couldNotGetLastKnowLocation(new NullLocationManager());
             return;
         }
 
@@ -63,9 +67,11 @@ public class LastKnowLocation extends TimerTask {
             networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
             networkEnabled = false;
+            listener.couldNotGetLastKnowLocation(ex);
         }
 
         if (!gpsEnabled && !networkEnabled) {
+            listener.couldNotGetLastKnowLocation(new LocationProviderDisabled());
             return;
         }
 

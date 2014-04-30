@@ -15,17 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package simbio.se.sau.location;
-
-import android.location.Location;
+package simbio.se.sau.exceptions.location;
 
 /**
  * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
  */
-public interface LastKnowLocationListener {
-
-    public void gotLastKnowLocation(Location location);
-
-    public void couldNotGetLastKnowLocation(Exception because);
-
+public class NullLocationManager extends AbstractLocationException {
 }
