@@ -43,7 +43,7 @@ public interface SauHttpDelegate {
     public abstract void onRequestCached(SauHttpClient sauHttpClient, String response);
 
     /**
-     * Called when occors an error on conection
+     * Called when occurs an error on connection
      *
      * @param sauHttpClient the {@link SauHttpClient} that has managed the request
      * @param throwable     the {@link Throwable} of error
