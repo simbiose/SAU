@@ -20,7 +20,11 @@ package simbio.se.sau.exceptions.location;
 import simbio.se.sau.exceptions.AbstractSauException;
 
 /**
- * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
+ * Class to inform Location Exceptions
+ *
+ * @author Ademar Alves de Oliveira ademar111190@gmail.com
+ * @date 2014-apr-30
+ * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
 public abstract class AbstractLocationException extends AbstractSauException {
 }
