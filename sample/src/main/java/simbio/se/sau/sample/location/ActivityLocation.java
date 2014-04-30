@@ -66,4 +66,12 @@ public class ActivityLocation extends Activity implements LastKnowLocationListen
         textViewLocation.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
     }
+
+    @Override
+    public void couldNotGetLastKnowLocation(Exception because) {
+        textViewLocation.setText(String.format("%s", because));
+
+        textViewLocation.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 }
