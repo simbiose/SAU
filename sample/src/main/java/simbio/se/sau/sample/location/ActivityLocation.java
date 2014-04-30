@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import simbio.se.sau.exceptions.location.AbstractLocationException;
 import simbio.se.sau.location.LastKnowLocation;
 import simbio.se.sau.location.LastKnowLocationListener;
 import simbio.se.sau.sample.R;
@@ -68,7 +69,7 @@ public class ActivityLocation extends Activity implements LastKnowLocationListen
     }
 
     @Override
-    public void couldNotGetLastKnowLocation(Exception because) {
+    public void couldNotGetLastKnowLocation(AbstractLocationException because) {
         textViewLocation.setText(String.format("%s", because));
 
         textViewLocation.setVisibility(View.VISIBLE);

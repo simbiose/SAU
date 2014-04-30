@@ -33,13 +33,13 @@ import simbio.se.sau.exceptions.location.NullLocationManager;
 /**
  * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
  */
-public class LastKnowLocation extends TimerTask {
+public class LastKnowLocation {
 
+    protected int timeToRetry = 1000;
     protected LastKnowLocationListener listener;
     protected LocationManager locationManager;
-    protected boolean gpsEnabled = false;
-    protected boolean networkEnabled = false;
     protected Handler handler;
+    protected boolean cancelRequest = false;
 
     public LastKnowLocation(LastKnowLocationListener listener) {
         this.listener = listener;
@@ -57,20 +57,7 @@ public class LastKnowLocation extends TimerTask {
             return;
         }
 
-        try {
-            gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-            gpsEnabled = false;
-        }
-
-        try {
-            networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (Exception ex) {
-            networkEnabled = false;
-            listener.couldNotGetLastKnowLocation(ex);
-        }
-
-        if (!gpsEnabled && !networkEnabled) {
+        if (!isGpsEnabled() && !isNetworkEnabled()) {
             listener.couldNotGetLastKnowLocation(new LocationProviderDisabled());
             return;
         }
@@ -81,22 +68,44 @@ public class LastKnowLocation extends TimerTask {
             return;
         }
 
-        if (gpsEnabled)
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    0l,
-                    0.0f,
-                    locationListenerGps
-            );
-        if (networkEnabled)
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    0l,
-                    0.0f,
-                    locationListenerNetwork
-            );
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0l,
+                0.0f,
+                locationListenerGps
+        );
+        locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                0l,
+                0.0f,
+                locationListenerNetwork
+        );
 
-        new Timer().schedule(this, 20000);
+        retry();
+    }
+
+    public void setTimeToRetry(int timeToRetry) {
+        this.timeToRetry = timeToRetry;
+    }
+
+    public int getTimeToRetry() {
+        return timeToRetry;
+    }
+
+    protected void retry() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (cancelRequest)
+                    return;
+
+                Location location = getLocationOrNull();
+                if (location != null)
+                    sendLocationToListener(location);
+                else
+                    retry();
+            }
+        }, getTimeToRetry());
     }
 
     protected LocationListener locationListenerGps = new LocationListener() {
@@ -137,6 +146,22 @@ public class LastKnowLocation extends TimerTask {
         }
     };
 
+    public boolean isGpsEnabled() {
+        try {
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public boolean isNetworkEnabled() {
+        try {
+            return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     protected void onLocationChanged(Location location) {
         if (location == null) {
             return;
@@ -165,9 +190,9 @@ public class LastKnowLocation extends TimerTask {
         Location locationGps = null;
         Location locationNetwork = null;
 
-        if (gpsEnabled)
+        if (isGpsEnabled())
             locationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (networkEnabled)
+        if (isNetworkEnabled())
             locationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         if (locationGps != null && locationNetwork != null) {
@@ -185,11 +210,8 @@ public class LastKnowLocation extends TimerTask {
         }
     }
 
-    @Override
-    public void run() {
-        Location location = getLocationOrNull();
-        if (location != null) {
-            sendLocationToListener(location);
-        }
+    public void cancel() {
+        cancelRequest = true;
     }
+
 }

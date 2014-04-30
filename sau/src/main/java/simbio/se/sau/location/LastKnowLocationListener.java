@@ -19,6 +19,8 @@ package simbio.se.sau.location;
 
 import android.location.Location;
 
+import simbio.se.sau.exceptions.location.AbstractLocationException;
+
 /**
  * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
  */
@@ -26,6 +28,6 @@ public interface LastKnowLocationListener {
 
     public void gotLastKnowLocation(Location location);
 
-    public void couldNotGetLastKnowLocation(Exception because);
+    public void couldNotGetLastKnowLocation(AbstractLocationException because);
 
 }
