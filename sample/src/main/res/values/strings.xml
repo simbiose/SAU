@@ -34,5 +34,9 @@
     <string name="record_started">record started</string>
     <string name="record_ended">record ended</string>
     <string name="remote_image_examples">Remote Image Examples</string>
+    <string name="latlng" formatted="false">Latitude %s Longitude %s</string>
+    <string name="refresh_location">Refresh Location</string>
+    <string name="open_location">Location Example</string>
+    <string name="location_example">Location Example</string>
 
 </resources>

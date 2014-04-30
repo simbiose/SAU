@@ -32,6 +32,7 @@ import android.widget.Toast;
 import simbio.se.sau.device.DeviceInformationsManager;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.sample.documents.ActivityDocumentUtils;
+import simbio.se.sau.sample.location.ActivityLocation;
 import simbio.se.sau.sample.record.RecordActivity;
 import simbio.se.sau.share.SimbiShare;
 import simbio.se.sau.view.ClipboardTextView;
@@ -192,6 +193,11 @@ public class MainActivity extends Activity
                 ToastMaker.toast(getApplicationContext());
                 break;
         }
+    }
+
+    public void openLocationActivity(View view) {
+        SimbiLog.log(this, view);
+        startActivity(new Intent(getApplicationContext(), ActivityLocation.class));
     }
 
     public void showUserEmail(View view) {

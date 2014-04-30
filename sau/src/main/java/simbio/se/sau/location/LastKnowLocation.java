@@ -43,7 +43,7 @@ public class LastKnowLocation extends TimerTask {
         this.handler = new Handler();
     }
 
-    public void sendNextLocationToListener(Context context) {
+    public void getLastKnowLocation(Context context) {
         if (listener == null) {
             return;
         }
