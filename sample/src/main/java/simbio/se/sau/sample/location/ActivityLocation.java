@@ -33,6 +33,7 @@ import simbio.se.sau.location.GeoLocation;
 import simbio.se.sau.location.GeoLocationListener;
 import simbio.se.sau.location.LastKnowLocation;
 import simbio.se.sau.location.LastKnowLocationListener;
+import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.model.location.GeoLocationModel;
 import simbio.se.sau.sample.R;
 
@@ -112,6 +113,7 @@ public class ActivityLocation extends Activity implements
 
     @Override
     public void onGetGeoLocationFail(Throwable throwable, String response) {
+        SimbiLog.log(this, throwable, response);
     }
 
     @Override
