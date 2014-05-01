@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import simbio.se.sau.exceptions.network.NetworkNullResponseException;
 import simbio.se.sau.exceptions.network.NetworkStatusNotOkException;
@@ -64,6 +65,7 @@ public class GeoLocation extends NetworkJsonService {
 
         RequestParams requestParams = new RequestParams();
         requestParams.put("latlng", String.format(
+                Locale.US,
                 "%f,%f",
                 location.getLatitude(),
                 location.getLongitude()
