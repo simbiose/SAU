@@ -28,10 +28,25 @@ import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
  */
 public interface GeoLocationListener {
 
+    /**
+     * @param geoLocationModels an {@link ArrayList} of {@link GoogleApiGeoLocationModel} with
+     *                          returned data
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     public void onGetGeoLocationSuccess(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
 
+    /**
+     * @param geoLocationModels an {@link ArrayList} of {@link GoogleApiGeoLocationModel} with
+     *                          cached data
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     public void onGetGeoLocationCached(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
 
+    /**
+     * @param throwable the {@link Throwable} occurred, can be <code>null</code>
+     * @param response  a {@link String} with response
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     public void onGetGeoLocationFail(Throwable throwable, String response);
 
 }

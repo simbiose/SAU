@@ -43,11 +43,20 @@ public class GeoLocation extends NetworkJsonService {
 
     protected GeoLocationListener listener;
 
+    /**
+     * @param context  the {@link android.content.Context} to be used
+     * @param listener the {@link GeoLocationListener} to handle data
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     public GeoLocation(Context context, GeoLocationListener listener) {
         super(context);
         this.listener = listener;
     }
 
+    /**
+     * @param location the {@link Location} to get GeoLocation
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     public void getGeoLocation(Location location) {
         if (listener == null || location == null) {
             return;
@@ -64,6 +73,13 @@ public class GeoLocation extends NetworkJsonService {
         get(URL, requestParams, 0);
     }
 
+    /**
+     * @param jsonObject   the {@link JSONObject} with data
+     * @param requestCode  the request code
+     * @param proccessFail <code>true</code> if need inform listener about fails
+     * @return an {@link ArrayList} of {@link GoogleApiGeoLocationModel} or <code>null</code>
+     * @since {@link simbio.se.sau.API#Version_4_0_0}
+     */
     protected ArrayList<GoogleApiGeoLocationModel> getGoogleApiGeoLocationModelsOrNull(
             JSONObject jsonObject,
             int requestCode,
