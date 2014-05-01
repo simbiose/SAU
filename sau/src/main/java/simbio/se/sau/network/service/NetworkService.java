@@ -37,30 +37,30 @@ public abstract class NetworkService implements SauHttpDelegate {
      * Called when request has been returned with success
      *
      * @param respose     a {@link java.lang.String} with returned data
-     * @param RequestCode the request code send when called the method
+     * @param requestCode the request code send when called the method
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    protected abstract void proccessResponseForRequest(String respose, int RequestCode);
+    protected abstract void proccessResponseForRequest(String respose, int requestCode);
 
     /**
      * Called when request has a cache
      *
      * @param respose     a {@link java.lang.String} with cache saved
-     * @param RequestCode the request code send when called the method
+     * @param requestCode the request code send when called the method
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    protected abstract void proccessCacheForRequest(String respose, int RequestCode);
+    protected abstract void proccessCacheForRequest(String respose, int requestCode);
 
     /**
      * Called when request fails
      *
-     * @param RequestCode the request code send when called the method
+     * @param requestCode the request code send when called the method
      * @param throwable   the {@link java.lang.Throwable} of the problem
      * @param content     an {@link java.lang.String} with error data, can be <code>null</code>
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
     protected abstract void proccessFailForRequest(
-            int RequestCode,
+            int requestCode,
             Throwable throwable,
             String content
     );
