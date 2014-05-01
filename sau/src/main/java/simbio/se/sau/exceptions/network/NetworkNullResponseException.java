@@ -1,5 +1,5 @@
 /**
- * Copyright 2014
+ * Copyright 2014-2014
  * Ademar Alves de Oliveira <ademar111190@gmail.com /> Simbio.se
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package simbio.se.sau.location;
-
-import java.util.ArrayList;
-
-import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
+package simbio.se.sau.exceptions.network;
 
 /**
- * @author Ademar Alves de Oliveira ademar111190@gmail.com
- * @date 2014-may-1
+ * Created by Ademar Alves de Oliveira <ademar111190@gmail.com>
+ *
+ * @date 1-apr-2014
  * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
-public interface GeoLocationListener {
-
-    public void onGetGeoLocationSuccess(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
-
-    public void onGetGeoLocationCached(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
-
-    public void onGetGeoLocationFail(Throwable throwable, String response);
-
+public class NetworkNullResponseException extends AbstractNetworkException {
 }

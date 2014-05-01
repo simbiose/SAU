@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2014
+ * Copyright 2014
  * Ademar Alves de Oliveira <ademar111190@gmail.com /> Simbio.se
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package simbio.se.sau.exceptions;
+package simbio.se.sau.exceptions.network;
+
+import simbio.se.sau.exceptions.AbstractSauException;
 
 /**
- * Created by Ademar Alves de Oliveira <ademar111190@gmail.com>
+ * Class to inform Network Exceptions
  *
- * @date 1-apr-2014
+ * @author Ademar Alves de Oliveira ademar111190@gmail.com
+ * @date 2014-apr-30
  * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
-public class NetworkNullResponseException extends AbstractSauException {
+public abstract class AbstractNetworkException extends AbstractSauException {
 }

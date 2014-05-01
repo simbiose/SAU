@@ -17,26 +17,127 @@
  */
 package simbio.se.sau.location;
 
+import android.content.Context;
 import android.location.Location;
+
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import simbio.se.sau.exceptions.network.NetworkNullResponseException;
+import simbio.se.sau.exceptions.network.NetworkStatusNotOkException;
+import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
+import simbio.se.sau.network.service.NetworkJsonService;
 
 /**
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2014-may-1
  * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
-public class GeoLocation {
+public class GeoLocation extends NetworkJsonService {
+
+    protected final String URL = "http://maps.googleapis.com/maps/api/geocode/json";
 
     protected GeoLocationListener listener;
 
-    public GeoLocation(GeoLocationListener listener) {
+    public GeoLocation(Context context, GeoLocationListener listener) {
+        super(context);
         this.listener = listener;
     }
 
     public void getGeoLocation(Location location) {
-        if (listener == null) {
+        if (listener == null || location == null) {
             return;
         }
 
-        //
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("latlng", String.format(
+                "%d,%d",
+                location.getLatitude(),
+                location.getLongitude()
+        ));
+        requestParams.put("sensor", true);
+
+        get(URL, requestParams, 0);
+    }
+
+    protected ArrayList<GoogleApiGeoLocationModel> getGoogleApiGeoLocationModelsOrNull(
+            JSONObject jsonObject,
+            int requestCode,
+            boolean proccessFail
+    ) {
+        if (jsonObject.optString("status").equalsIgnoreCase("OK")) {
+            JSONArray jsonArray = jsonObject.optJSONArray("results");
+            if (jsonArray == null) {
+                if (proccessFail)
+                    proccessFailForRequest(
+                            requestCode,
+                            new NetworkNullResponseException(),
+                            jsonObject.toString()
+                    );
+            } else {
+                ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
+                        new ArrayList<GoogleApiGeoLocationModel>();
+                for (int i = 0; i < jsonArray.length(); i++)
+                    googleApiGeoLocationModels.add(
+                            new GoogleApiGeoLocationModel(jsonArray.optJSONObject(i))
+                    );
+                return googleApiGeoLocationModels;
+            }
+        } else if (proccessFail) {
+            proccessFailForRequest(
+                    requestCode,
+                    new NetworkStatusNotOkException(),
+                    jsonObject.optString("error_message")
+            );
+        }
+        return null;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Network Json Service Methods
+    //----------------------------------------------------------------------------------------------
+
+    @Override
+    protected void proccessResponseForRequest(JSONObject jsonObject, int requestCode) {
+        final ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
+                getGoogleApiGeoLocationModelsOrNull(jsonObject, requestCode, true);
+        if (googleApiGeoLocationModels != null)
+            getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onGetGeoLocationSuccess(googleApiGeoLocationModels);
+                }
+            });
+    }
+
+    @Override
+    protected void proccessCacheForRequest(JSONObject jsonObject, int requestCode) {
+        final ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
+                getGoogleApiGeoLocationModelsOrNull(jsonObject, requestCode, false);
+        if (googleApiGeoLocationModels != null)
+            getHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onGetGeoLocationCached(googleApiGeoLocationModels);
+                }
+            });
+    }
+
+    @Override
+    protected void proccessFailForRequest(
+            int requestCode,
+            final Throwable throwable,
+            final String content
+    ) {
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onGetGeoLocationFail(throwable, content);
+            }
+        });
     }
 }

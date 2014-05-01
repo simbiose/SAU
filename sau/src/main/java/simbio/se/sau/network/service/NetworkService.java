@@ -1,12 +1,13 @@
 package simbio.se.sau.network.service;
 
 import android.content.Context;
+import android.os.Handler;
 
 import com.loopj.android.http.RequestParams;
 
 import java.util.HashMap;
 
-import simbio.se.sau.exceptions.NetworkNullResponseException;
+import simbio.se.sau.exceptions.network.NetworkNullResponseException;
 import simbio.se.sau.network.client.SauHttpClient;
 import simbio.se.sau.network.client.SauHttpDelegate;
 
@@ -20,6 +21,7 @@ public abstract class NetworkService implements SauHttpDelegate {
 
     protected HashMap<SauHttpClient, Integer> clients = new HashMap<SauHttpClient, Integer>();
     protected Context context;
+    protected Handler handler;
 
     /**
      * @param context the {@link android.content.Context} to be used
@@ -27,6 +29,7 @@ public abstract class NetworkService implements SauHttpDelegate {
      */
     public NetworkService(Context context) {
         this.context = context;
+        this.handler = new Handler();
     }
 
     //----------------------------------------------------------------------------------------------
@@ -89,6 +92,13 @@ public abstract class NetworkService implements SauHttpDelegate {
         int ret = getRequestCodeByClient(sauHttpClient);
         clients.remove(sauHttpClient);
         return ret;
+    }
+
+    /**
+     * @return a {@link android.os.Handler} to make jobs on UIThread
+     */
+    public Handler getHandler() {
+        return handler;
     }
 
     //----------------------------------------------------------------------------------------------
