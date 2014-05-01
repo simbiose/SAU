@@ -20,10 +20,11 @@ package simbio.se.sau.model.location;
 import simbio.se.sau.model.IAbstractModel;
 
 /**
+ * An abstract model to all location models extends
+ *
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2014-may-1
  * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
 public abstract class AbstractGeoLocationModel implements IAbstractModel {
-
 }
