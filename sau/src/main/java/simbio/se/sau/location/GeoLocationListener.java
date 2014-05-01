@@ -18,7 +18,9 @@
 package simbio.se.sau.location;
 
 /**
- * Created by Ademar Oliveira <ademar111190@gmail.com> on 4/30/14.
+ * @author Ademar Alves de Oliveira ademar111190@gmail.com
+ * @date 2014-may-1
+ * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
 public class GeoLocationListener {
 }
