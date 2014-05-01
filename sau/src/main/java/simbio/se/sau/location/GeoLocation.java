@@ -64,7 +64,7 @@ public class GeoLocation extends NetworkJsonService {
 
         RequestParams requestParams = new RequestParams();
         requestParams.put("latlng", String.format(
-                "%d,%d",
+                "%f,%f",
                 location.getLatitude(),
                 location.getLongitude()
         ));
