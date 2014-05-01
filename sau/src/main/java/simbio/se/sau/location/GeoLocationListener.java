@@ -19,7 +19,7 @@ package simbio.se.sau.location;
 
 import java.util.ArrayList;
 
-import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
+import simbio.se.sau.model.location.GeoLocationModel;
 
 /**
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
@@ -29,18 +29,18 @@ import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
 public interface GeoLocationListener {
 
     /**
-     * @param geoLocationModels an {@link ArrayList} of {@link GoogleApiGeoLocationModel} with
+     * @param geoLocationModels an {@link ArrayList} of {@link simbio.se.sau.model.location.GeoLocationModel} with
      *                          returned data
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    public void onGetGeoLocationSuccess(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
+    public void onGetGeoLocationSuccess(ArrayList<GeoLocationModel> geoLocationModels);
 
     /**
-     * @param geoLocationModels an {@link ArrayList} of {@link GoogleApiGeoLocationModel} with
+     * @param geoLocationModels an {@link ArrayList} of {@link simbio.se.sau.model.location.GeoLocationModel} with
      *                          cached data
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    public void onGetGeoLocationCached(ArrayList<GoogleApiGeoLocationModel> geoLocationModels);
+    public void onGetGeoLocationCached(ArrayList<GeoLocationModel> geoLocationModels);
 
     /**
      * @param throwable the {@link Throwable} occurred, can be <code>null</code>

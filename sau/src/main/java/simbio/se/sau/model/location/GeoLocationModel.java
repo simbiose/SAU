@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * @date 5/1/14.
  * @since {@link simbio.se.sau.API#Version_4_0_0}
  */
-public class GoogleApiGeoLocationModel extends AbstractGeoLocationModel {
+public class GeoLocationModel extends AbstractGeoLocationModel {
 
     protected String formattedAddress;
     protected Geometry geometry;
@@ -41,7 +41,7 @@ public class GoogleApiGeoLocationModel extends AbstractGeoLocationModel {
      * @param jsonObject the {@link org.json.JSONObject} with data
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    public GoogleApiGeoLocationModel(JSONObject jsonObject) {
+    public GeoLocationModel(JSONObject jsonObject) {
         if (jsonObject != null) {
             formattedAddress = jsonObject.optString("formatted_address");
             geometry = new Geometry(jsonObject.optJSONObject("geometry"));

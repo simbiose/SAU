@@ -97,7 +97,7 @@ public abstract class NetworkService implements SauHttpDelegate {
     /**
      * @return a {@link android.os.Handler} to make jobs on UIThread
      */
-    public Handler getHandler() {
+    protected Handler getHandler() {
         return handler;
     }
 
@@ -113,7 +113,7 @@ public abstract class NetworkService implements SauHttpDelegate {
      * @param requestCode   the request code to identify the correct answer to requests
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    public void get(final String url, final RequestParams requestParams, int requestCode) {
+    protected void get(final String url, final RequestParams requestParams, int requestCode) {
         SauHttpClient sauHttpClient = new SauHttpClient<NetworkService>(context, this);
         clients.put(sauHttpClient, requestCode);
         sauHttpClient.get(url, requestParams);

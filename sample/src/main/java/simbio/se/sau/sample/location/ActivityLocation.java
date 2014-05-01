@@ -21,22 +21,35 @@ import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import simbio.se.sau.adapters.IAbstractAdapter;
 import simbio.se.sau.exceptions.location.AbstractLocationException;
+import simbio.se.sau.location.GeoLocation;
+import simbio.se.sau.location.GeoLocationListener;
 import simbio.se.sau.location.LastKnowLocation;
 import simbio.se.sau.location.LastKnowLocationListener;
+import simbio.se.sau.model.location.GeoLocationModel;
 import simbio.se.sau.sample.R;
 
 /**
  * @author Ademar Alves de Oliveira (ademar111190@gmail.com)
  * @date Nov 27, 2013 3:38:42 PM
  */
-public class ActivityLocation extends Activity implements LastKnowLocationListener {
+public class ActivityLocation extends Activity implements
+        LastKnowLocationListener,
+        GeoLocationListener,
+        IAbstractAdapter<GeoLocationModel> {
 
     protected TextView textViewLocation;
     protected ProgressBar progressBar;
+    protected ListView listView;
+    protected ArrayList<GeoLocationModel> locations = new ArrayList<GeoLocationModel>();
+    protected LocationListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,9 @@ public class ActivityLocation extends Activity implements LastKnowLocationListen
 
         textViewLocation = (TextView) findViewById(R.id.textview_location);
         progressBar = (ProgressBar) findViewById(R.id.location_progressBar);
+        listView = (ListView) findViewById(R.id.location_listview);
+        adapter = new LocationListViewAdapter(getApplicationContext(), this);
+        listView.setAdapter(adapter);
     }
 
     public void refreshLocation(View view) {
@@ -66,6 +82,10 @@ public class ActivityLocation extends Activity implements LastKnowLocationListen
 
         textViewLocation.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
+
+        locations.clear();
+        adapter.notifyDataSetChanged();
+        new GeoLocation(getApplicationContext(), this).getGeoLocation(location);
     }
 
     @Override
@@ -74,5 +94,28 @@ public class ActivityLocation extends Activity implements LastKnowLocationListen
 
         textViewLocation.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onGetGeoLocationSuccess(ArrayList<GeoLocationModel> geoLocationModels) {
+        locations.clear();
+        locations.addAll(geoLocationModels);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetGeoLocationCached(ArrayList<GeoLocationModel> geoLocationModels) {
+        locations.clear();
+        locations.addAll(geoLocationModels);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetGeoLocationFail(Throwable throwable, String response) {
+    }
+
+    @Override
+    public ArrayList<GeoLocationModel> getAdapterModels() {
+        return locations;
     }
 }

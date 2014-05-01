@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import simbio.se.sau.exceptions.network.NetworkNullResponseException;
 import simbio.se.sau.exceptions.network.NetworkStatusNotOkException;
-import simbio.se.sau.model.location.GoogleApiGeoLocationModel;
+import simbio.se.sau.model.location.GeoLocationModel;
 import simbio.se.sau.network.service.NetworkJsonService;
 
 /**
@@ -77,10 +77,10 @@ public class GeoLocation extends NetworkJsonService {
      * @param jsonObject   the {@link JSONObject} with data
      * @param requestCode  the request code
      * @param proccessFail <code>true</code> if need inform listener about fails
-     * @return an {@link ArrayList} of {@link GoogleApiGeoLocationModel} or <code>null</code>
+     * @return an {@link ArrayList} of {@link simbio.se.sau.model.location.GeoLocationModel} or <code>null</code>
      * @since {@link simbio.se.sau.API#Version_4_0_0}
      */
-    protected ArrayList<GoogleApiGeoLocationModel> getGoogleApiGeoLocationModelsOrNull(
+    protected ArrayList<GeoLocationModel> getGoogleApiGeoLocationModelsOrNull(
             JSONObject jsonObject,
             int requestCode,
             boolean proccessFail
@@ -95,11 +95,11 @@ public class GeoLocation extends NetworkJsonService {
                             jsonObject.toString()
                     );
             } else {
-                ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
-                        new ArrayList<GoogleApiGeoLocationModel>();
+                ArrayList<GeoLocationModel> googleApiGeoLocationModels =
+                        new ArrayList<GeoLocationModel>();
                 for (int i = 0; i < jsonArray.length(); i++)
                     googleApiGeoLocationModels.add(
-                            new GoogleApiGeoLocationModel(jsonArray.optJSONObject(i))
+                            new GeoLocationModel(jsonArray.optJSONObject(i))
                     );
                 return googleApiGeoLocationModels;
             }
@@ -119,7 +119,7 @@ public class GeoLocation extends NetworkJsonService {
 
     @Override
     protected void proccessResponseForRequest(JSONObject jsonObject, int requestCode) {
-        final ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
+        final ArrayList<GeoLocationModel> googleApiGeoLocationModels =
                 getGoogleApiGeoLocationModelsOrNull(jsonObject, requestCode, true);
         if (googleApiGeoLocationModels != null)
             getHandler().post(new Runnable() {
@@ -132,7 +132,7 @@ public class GeoLocation extends NetworkJsonService {
 
     @Override
     protected void proccessCacheForRequest(JSONObject jsonObject, int requestCode) {
-        final ArrayList<GoogleApiGeoLocationModel> googleApiGeoLocationModels =
+        final ArrayList<GeoLocationModel> googleApiGeoLocationModels =
                 getGoogleApiGeoLocationModelsOrNull(jsonObject, requestCode, false);
         if (googleApiGeoLocationModels != null)
             getHandler().post(new Runnable() {
