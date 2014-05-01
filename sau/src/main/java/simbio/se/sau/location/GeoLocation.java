@@ -68,7 +68,7 @@ public class GeoLocation extends NetworkJsonService {
                 location.getLatitude(),
                 location.getLongitude()
         ));
-        requestParams.put("sensor", true);
+        requestParams.put("sensor", "true");
 
         get(URL, requestParams, 0);
     }
