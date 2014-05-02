@@ -99,6 +99,7 @@ public class ActivityLocation extends Activity implements
 
     @Override
     public void onGetGeoLocationSuccess(ArrayList<GeoLocationModel> geoLocationModels) {
+        SimbiLog.printText("success", geoLocationModels.size());
         locations.clear();
         locations.addAll(geoLocationModels);
         adapter.notifyDataSetChanged();
@@ -106,6 +107,7 @@ public class ActivityLocation extends Activity implements
 
     @Override
     public void onGetGeoLocationCached(ArrayList<GeoLocationModel> geoLocationModels) {
+        SimbiLog.printText("cached", geoLocationModels.size());
         locations.clear();
         locations.addAll(geoLocationModels);
         adapter.notifyDataSetChanged();

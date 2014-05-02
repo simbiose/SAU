@@ -94,6 +94,8 @@ public class SauHttpClient<Delegate extends SauHttpDelegate>
 
     @Override
     public void onSuccess(String response) {
+        if (cacheManager != null && cachedKey != null && response != null)
+            cacheManager.cache(cachedKey, response);
         getDelegate().onRequestSuccess(this, response);
     }
 
