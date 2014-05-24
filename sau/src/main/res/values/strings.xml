@@ -1,5 +1,9 @@
 <resources>
 
     <string name="empty"></string>
+    <string name="lorem_ipsum_char">L</string>
+    <string name="lorem_ipsum_word">Lorem</string>
+    <string name="lorem_ipsum_normal">Lorem ipsum</string>
+    <string name="lorem_ipsum_large">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing.</string>
 
 </resources>
