@@ -36,7 +36,7 @@ import simbio.se.sau.utilities.NullOrEmpty;
 import static simbio.se.sau.iterable.Range.range;
 
 /**
- * A normal test class, for more details {@link AndroidTestCase}
+ * A normal test class, for more details {@link android.test.AndroidTestCase}
  *
  * @author Ademar Alves de Oliveira ademar111190@gmail.com
  * @date 2013-aŭg-19 00:57:49
@@ -44,17 +44,17 @@ import static simbio.se.sau.iterable.Range.range;
 public class TestSauLibrary extends AndroidTestCase {
 
     /**
-     * A normal test method, for more details {@link AndroidTestCase}
+     * A normal test method, for more details {@link android.test.AndroidTestCase}
      */
     public final void testSomething() {
         // test shared preferences
-        Object[] param1 = {"1", 2, null, 4.6f, new Object[]{}};
+        Object[] param1 = {"1", 2, null, 4.6f, new Object[] {}};
         String param1Json = JsonUtils.toJson(param1);
         String param1JsonValidate = "[\"1\",2,null,4.6,[]]";
 
         Foo foo1 = new Foo();
         Foo foo2 = (Foo) JsonUtils.fromJsonOrNull(
-                "{\"valueInt\":8,\"\":-67.87f,\"valueString\":\"FooT\",\"valuesDouble\":[1.2,1.4]}",
+                "{\"valueInt\":128,\"\":-67.87f,\"valueString\":\"FooT\",\"valuesDouble\":[1.2,1.4]}",
                 Foo.class
         );
         Foo fooDifferent = new Foo();
@@ -385,8 +385,9 @@ public class TestSauLibrary extends AndroidTestCase {
     /**
      * Only a helper method
      *
-     * @param fooA {@link ArrayList} of {@link Foo} objects to compare
-     * @param fooB {@link ArrayList} of {@link Foo} objects to compare
+     * @param fooA {@link java.util.ArrayList} of {@link Foo} objects to compare
+     * @param fooB {@link java.util.ArrayList} of {@link Foo} objects to compare
+     *
      * @return <code>true</code> if the list are equals, <code>false</code> otherside
      */
     private boolean assertFooArrayList(ArrayList<Foo> fooA, ArrayList<Foo> fooB) {

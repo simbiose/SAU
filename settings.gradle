@@ -1,3 +1,2 @@
 include ':sau'
 include ':sample'
-include ':test'
