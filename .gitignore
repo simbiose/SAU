@@ -16,3 +16,4 @@ test/build/
 *.ipr
 *.iws
 .idea/
+build/

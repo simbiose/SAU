@@ -1,1 +1,3 @@
-include ':sau', ':sample', ':test'
+include ':sau'
+include ':sample'
+include ':test'

@@ -5,7 +5,7 @@ This a collection of utilities for android development, like Log Manager, Shared
 
 ##License
 
-Is a GPL software, for more details see the LICENSE.md on root project folder.
+Is a LGPL software, for more details see the LICENSE.md on root project folder.
 
 ##Developer
 
