@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import simbio.se.sau.encryption.Encryption;
+import se.simbio.encryption.Encryption;
 import simbio.se.sau.json.JsonUtils;
 import simbio.se.sau.log.SimbiLog;
 import simbio.se.sau.persistense.PreferencesHelper;
